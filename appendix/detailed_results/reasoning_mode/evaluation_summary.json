@@ -1,0 +1,1330 @@
+{
+  "log_dir": "logs/run2",
+  "ground_truth_dir": "ground_truth/boundaries",
+  "total_evaluated": 76,
+  "total_errors": 1,
+  "average_metrics": {
+    "precision": 0.7987,
+    "recall": 0.7251,
+    "f1_score": 0.7365
+  },
+  "overall_stability": {
+    "total_runs": 76,
+    "metrics": {
+      "precision": {
+        "mean": 0.7987,
+        "std": 0.1847,
+        "cv": 0.2312,
+        "min": 0.4286,
+        "max": 1.0
+      },
+      "recall": {
+        "mean": 0.7251,
+        "std": 0.1793,
+        "cv": 0.2473,
+        "min": 0.303,
+        "max": 1.0
+      },
+      "f1_score": {
+        "mean": 0.7365,
+        "std": 0.1309,
+        "cv": 0.1777,
+        "min": 0.3846,
+        "max": 0.9639
+      }
+    },
+    "stability": {
+      "avg_cv": 0.2187,
+      "stability_score": 0.7813,
+      "interpretation": "Moderate"
+    }
+  },
+  "protocol_summary": {
+    "custom_iot_100": {
+      "total_runs": 7,
+      "successful_runs": 7,
+      "failed_runs": 0,
+      "success_rate": 1.0,
+      "metrics": {
+        "precision": {
+          "mean": 0.6838,
+          "std": 0.0867,
+          "cv": 0.1267,
+          "min": 0.55,
+          "max": 0.7857
+        },
+        "recall": {
+          "mean": 0.9286,
+          "std": 0.0575,
+          "cv": 0.0619,
+          "min": 0.8333,
+          "max": 1.0
+        },
+        "f1_score": {
+          "mean": 0.7833,
+          "std": 0.0539,
+          "cv": 0.0689,
+          "min": 0.6875,
+          "max": 0.8462
+        }
+      },
+      "stability": {
+        "avg_cv": 0.0858,
+        "stability_score": 0.9142,
+        "interpretation": "Stable"
+      }
+    },
+    "dhcp_100": {
+      "total_runs": 3,
+      "successful_runs": 3,
+      "failed_runs": 0,
+      "success_rate": 1.0,
+      "metrics": {
+        "precision": {
+          "mean": 0.645,
+          "std": 0.1894,
+          "cv": 0.2937,
+          "min": 0.4545,
+          "max": 0.8333
+        },
+        "recall": {
+          "mean": 0.6889,
+          "std": 0.0385,
+          "cv": 0.0558,
+          "min": 0.6667,
+          "max": 0.7333
+        },
+        "f1_score": {
+          "mean": 0.6562,
+          "std": 0.1037,
+          "cv": 0.158,
+          "min": 0.5405,
+          "max": 0.7407
+        }
+      },
+      "stability": {
+        "avg_cv": 0.1692,
+        "stability_score": 0.8308,
+        "interpretation": "Fairly Stable"
+      }
+    },
+    "dnp3_100": {
+      "total_runs": 7,
+      "successful_runs": 7,
+      "failed_runs": 0,
+      "success_rate": 1.0,
+      "metrics": {
+        "precision": {
+          "mean": 0.8877,
+          "std": 0.0879,
+          "cv": 0.099,
+          "min": 0.75,
+          "max": 1.0
+        },
+        "recall": {
+          "mean": 0.6446,
+          "std": 0.053,
+          "cv": 0.0823,
+          "min": 0.6021,
+          "max": 0.7025
+        },
+        "f1_score": {
+          "mean": 0.7451,
+          "std": 0.0536,
+          "cv": 0.0719,
+          "min": 0.668,
+          "max": 0.8228
+        }
+      },
+      "stability": {
+        "avg_cv": 0.0844,
+        "stability_score": 0.9156,
+        "interpretation": "Stable"
+      }
+    },
+    "dns_ictf_100": {
+      "total_runs": 7,
+      "successful_runs": 7,
+      "failed_runs": 0,
+      "success_rate": 1.0,
+      "metrics": {
+        "precision": {
+          "mean": 0.9439,
+          "std": 0.1007,
+          "cv": 0.1067,
+          "min": 0.75,
+          "max": 1.0
+        },
+        "recall": {
+          "mean": 0.75,
+          "std": 0.0,
+          "cv": 0.0,
+          "min": 0.75,
+          "max": 0.75
+        },
+        "f1_score": {
+          "mean": 0.8336,
+          "std": 0.0426,
+          "cv": 0.0511,
+          "min": 0.75,
+          "max": 0.8571
+        }
+      },
+      "stability": {
+        "avg_cv": 0.0526,
+        "stability_score": 0.9474,
+        "interpretation": "Stable"
+      }
+    },
+    "hollysys_100": {
+      "total_runs": 4,
+      "successful_runs": 4,
+      "failed_runs": 0,
+      "success_rate": 1.0,
+      "metrics": {
+        "precision": {
+          "mean": 0.9236,
+          "std": 0.1187,
+          "cv": 0.1285,
+          "min": 0.75,
+          "max": 1.0
+        },
+        "recall": {
+          "mean": 0.4386,
+          "std": 0.0994,
+          "cv": 0.2267,
+          "min": 0.303,
+          "max": 0.5424
+        },
+        "f1_score": {
+          "mean": 0.5863,
+          "std": 0.0952,
+          "cv": 0.1623,
+          "min": 0.4651,
+          "max": 0.6891
+        }
+      },
+      "stability": {
+        "avg_cv": 0.1725,
+        "stability_score": 0.8275,
+        "interpretation": "Fairly Stable"
+      }
+    },
+    "modbus_100": {
+      "total_runs": 6,
+      "successful_runs": 6,
+      "failed_runs": 0,
+      "success_rate": 1.0,
+      "metrics": {
+        "precision": {
+          "mean": 0.8347,
+          "std": 0.1463,
+          "cv": 0.1753,
+          "min": 0.625,
+          "max": 1.0
+        },
+        "recall": {
+          "mean": 0.8333,
+          "std": 0.1506,
+          "cv": 0.1807,
+          "min": 0.6,
+          "max": 1.0
+        },
+        "f1_score": {
+          "mean": 0.8205,
+          "std": 0.0937,
+          "cv": 0.1142,
+          "min": 0.6667,
+          "max": 0.9091
+        }
+      },
+      "stability": {
+        "avg_cv": 0.1567,
+        "stability_score": 0.8433,
+        "interpretation": "Fairly Stable"
+      }
+    },
+    "ntp_100": {
+      "total_runs": 7,
+      "successful_runs": 7,
+      "failed_runs": 0,
+      "success_rate": 1.0,
+      "metrics": {
+        "precision": {
+          "mean": 0.6997,
+          "std": 0.1272,
+          "cv": 0.1818,
+          "min": 0.4286,
+          "max": 0.8
+        },
+        "recall": {
+          "mean": 0.9143,
+          "std": 0.09,
+          "cv": 0.0984,
+          "min": 0.8,
+          "max": 1.0
+        },
+        "f1_score": {
+          "mean": 0.7855,
+          "std": 0.1025,
+          "cv": 0.1305,
+          "min": 0.5806,
+          "max": 0.8696
+        }
+      },
+      "stability": {
+        "avg_cv": 0.1369,
+        "stability_score": 0.8631,
+        "interpretation": "Fairly Stable"
+      }
+    },
+    "omron_fins_100": {
+      "total_runs": 5,
+      "successful_runs": 5,
+      "failed_runs": 0,
+      "success_rate": 1.0,
+      "metrics": {
+        "precision": {
+          "mean": 1.0,
+          "std": 0.0,
+          "cv": 0.0,
+          "min": 1.0,
+          "max": 1.0
+        },
+        "recall": {
+          "mean": 0.4872,
+          "std": 0.0659,
+          "cv": 0.1353,
+          "min": 0.4223,
+          "max": 0.5777
+        },
+        "f1_score": {
+          "mean": 0.653,
+          "std": 0.0593,
+          "cv": 0.0908,
+          "min": 0.5938,
+          "max": 0.7323
+        }
+      },
+      "stability": {
+        "avg_cv": 0.0754,
+        "stability_score": 0.9246,
+        "interpretation": "Stable"
+      }
+    },
+    "s7comm_100": {
+      "total_runs": 7,
+      "successful_runs": 7,
+      "failed_runs": 0,
+      "success_rate": 1.0,
+      "metrics": {
+        "precision": {
+          "mean": 0.8091,
+          "std": 0.2438,
+          "cv": 0.3014,
+          "min": 0.4286,
+          "max": 1.0
+        },
+        "recall": {
+          "mean": 0.6811,
+          "std": 0.2062,
+          "cv": 0.3027,
+          "min": 0.3488,
+          "max": 0.9302
+        },
+        "f1_score": {
+          "mean": 0.7377,
+          "std": 0.2185,
+          "cv": 0.2961,
+          "min": 0.3846,
+          "max": 0.9639
+        }
+      },
+      "stability": {
+        "avg_cv": 0.3001,
+        "stability_score": 0.6999,
+        "interpretation": "Unstable"
+      }
+    },
+    "s7comm_plus_100": {
+      "total_runs": 6,
+      "successful_runs": 6,
+      "failed_runs": 0,
+      "success_rate": 1.0,
+      "metrics": {
+        "precision": {
+          "mean": 0.9583,
+          "std": 0.0645,
+          "cv": 0.0674,
+          "min": 0.875,
+          "max": 1.0
+        },
+        "recall": {
+          "mean": 0.6061,
+          "std": 0.0469,
+          "cv": 0.0774,
+          "min": 0.5455,
+          "max": 0.6364
+        },
+        "f1_score": {
+          "mean": 0.7402,
+          "std": 0.0323,
+          "cv": 0.0436,
+          "min": 0.7059,
+          "max": 0.7778
+        }
+      },
+      "stability": {
+        "avg_cv": 0.0628,
+        "stability_score": 0.9372,
+        "interpretation": "Stable"
+      }
+    },
+    "smb2_100": {
+      "total_runs": 5,
+      "successful_runs": 5,
+      "failed_runs": 0,
+      "success_rate": 1.0,
+      "metrics": {
+        "precision": {
+          "mean": 0.589,
+          "std": 0.0619,
+          "cv": 0.1051,
+          "min": 0.5263,
+          "max": 0.6667
+        },
+        "recall": {
+          "mean": 0.7429,
+          "std": 0.1481,
+          "cv": 0.1994,
+          "min": 0.5714,
+          "max": 0.9286
+        },
+        "f1_score": {
+          "mean": 0.6503,
+          "std": 0.0692,
+          "cv": 0.1063,
+          "min": 0.5806,
+          "max": 0.7273
+        }
+      },
+      "stability": {
+        "avg_cv": 0.137,
+        "stability_score": 0.863,
+        "interpretation": "Fairly Stable"
+      }
+    },
+    "smb_100": {
+      "total_runs": 6,
+      "successful_runs": 5,
+      "failed_runs": 1,
+      "success_rate": 0.8333,
+      "metrics": {
+        "precision": {
+          "mean": 0.4604,
+          "std": 0.0104,
+          "cv": 0.0226,
+          "min": 0.45,
+          "max": 0.4737
+        },
+        "recall": {
+          "mean": 0.5469,
+          "std": 0.0967,
+          "cv": 0.1768,
+          "min": 0.4102,
+          "max": 0.6153
+        },
+        "f1_score": {
+          "mean": 0.4964,
+          "std": 0.0419,
+          "cv": 0.0844,
+          "min": 0.4344,
+          "max": 0.5353
+        }
+      },
+      "stability": {
+        "avg_cv": 0.0946,
+        "stability_score": 0.9054,
+        "interpretation": "Stable"
+      }
+    },
+    "time_sync_100": {
+      "total_runs": 7,
+      "successful_runs": 7,
+      "failed_runs": 0,
+      "success_rate": 1.0,
+      "metrics": {
+        "precision": {
+          "mean": 0.842,
+          "std": 0.0666,
+          "cv": 0.0791,
+          "min": 0.7273,
+          "max": 0.9
+        },
+        "recall": {
+          "mean": 0.9048,
+          "std": 0.042,
+          "cv": 0.0464,
+          "min": 0.8889,
+          "max": 1.0
+        },
+        "f1_score": {
+          "mean": 0.8712,
+          "std": 0.0475,
+          "cv": 0.0545,
+          "min": 0.8,
+          "max": 0.9474
+        }
+      },
+      "stability": {
+        "avg_cv": 0.06,
+        "stability_score": 0.94,
+        "interpretation": "Stable"
+      }
+    }
+  },
+  "results": [
+    {
+      "protocol": "dnp3_100",
+      "run_id": "dnp3_100_run5",
+      "analysis_file": "logs/run2/dnp3_100_run5/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/dnp3_100_boundaries.json",
+      "total_messages": 114,
+      "total_fields": 8,
+      "precision": 0.8571,
+      "recall": 0.6021,
+      "f1_score": 0.7073
+    },
+    {
+      "protocol": "dhcp_100",
+      "run_id": "dhcp_100_run6",
+      "analysis_file": "logs/run2/dhcp_100_run6/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/dhcp_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 23,
+      "precision": 0.4545,
+      "recall": 0.6667,
+      "f1_score": 0.5405
+    },
+    {
+      "protocol": "hollysys_100",
+      "run_id": "hollysys_100_run7",
+      "analysis_file": "logs/run2/hollysys_100_run7/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/hollysys_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 3,
+      "precision": 1.0,
+      "recall": 0.303,
+      "f1_score": 0.4651
+    },
+    {
+      "protocol": "omron_fins_100",
+      "run_id": "omron_fins_100_run3",
+      "analysis_file": "logs/run2/omron_fins_100_run3/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/omron_fins_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 6,
+      "precision": 1.0,
+      "recall": 0.4223,
+      "f1_score": 0.5938
+    },
+    {
+      "protocol": "modbus_100",
+      "run_id": "modbus_100_run4",
+      "analysis_file": "logs/run2/modbus_100_run4/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/modbus_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 6,
+      "precision": 0.8,
+      "recall": 0.8,
+      "f1_score": 0.8
+    },
+    {
+      "protocol": "omron_fins_100",
+      "run_id": "omron_fins_100_run5",
+      "analysis_file": "logs/run2/omron_fins_100_run5/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/omron_fins_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 8,
+      "precision": 1.0,
+      "recall": 0.5777,
+      "f1_score": 0.7323
+    },
+    {
+      "protocol": "ntp_100",
+      "run_id": "ntp_100_run3",
+      "analysis_file": "logs/run2/ntp_100_run3/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/ntp_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 22,
+      "precision": 0.4286,
+      "recall": 0.9,
+      "f1_score": 0.5806
+    },
+    {
+      "protocol": "smb_100",
+      "run_id": "smb_100_run3",
+      "analysis_file": "logs/run2/smb_100_run3/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/smb_100_boundaries.json",
+      "total_messages": 91,
+      "total_fields": 21,
+      "precision": 0.45,
+      "recall": 0.6153,
+      "f1_score": 0.5198
+    },
+    {
+      "protocol": "smb2_100",
+      "run_id": "smb2_100_run1",
+      "analysis_file": "logs/run2/smb2_100_run1/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/smb2_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 18,
+      "precision": 0.5294,
+      "recall": 0.6429,
+      "f1_score": 0.5806
+    },
+    {
+      "protocol": "modbus_100",
+      "run_id": "modbus_100_run5",
+      "analysis_file": "logs/run2/modbus_100_run5/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/modbus_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 5,
+      "precision": 0.75,
+      "recall": 0.6,
+      "f1_score": 0.6667
+    },
+    {
+      "protocol": "s7comm_plus_100",
+      "run_id": "s7comm_plus_100_run6",
+      "analysis_file": "logs/run2/s7comm_plus_100_run6/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/s7comm_plus_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 7,
+      "precision": 1.0,
+      "recall": 0.5455,
+      "f1_score": 0.7059
+    },
+    {
+      "protocol": "time_sync_100",
+      "run_id": "time_sync_100_run6",
+      "analysis_file": "logs/run2/time_sync_100_run6/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/time_sync_100_boundaries.json",
+      "total_messages": 200,
+      "total_fields": 11,
+      "precision": 0.8,
+      "recall": 0.8889,
+      "f1_score": 0.8421
+    },
+    {
+      "protocol": "dns_ictf_100",
+      "run_id": "dns_ictf_100_run5",
+      "analysis_file": "logs/run2/dns_ictf_100_run5/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/dns_ictf_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 7,
+      "precision": 1.0,
+      "recall": 0.75,
+      "f1_score": 0.8571
+    },
+    {
+      "protocol": "custom_iot_100",
+      "run_id": "custom_iot_100_run5",
+      "analysis_file": "logs/run2/custom_iot_100_run5/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/custom_iot_100_boundaries.json",
+      "total_messages": 200,
+      "total_fields": 8,
+      "precision": 0.7143,
+      "recall": 0.8333,
+      "f1_score": 0.7692
+    },
+    {
+      "protocol": "custom_iot_100",
+      "run_id": "custom_iot_100_run7",
+      "analysis_file": "logs/run2/custom_iot_100_run7/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/custom_iot_100_boundaries.json",
+      "total_messages": 200,
+      "total_fields": 11,
+      "precision": 0.6316,
+      "recall": 1.0,
+      "f1_score": 0.7742
+    },
+    {
+      "protocol": "dns_ictf_100",
+      "run_id": "dns_ictf_100_run1",
+      "analysis_file": "logs/run2/dns_ictf_100_run1/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/dns_ictf_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 7,
+      "precision": 1.0,
+      "recall": 0.75,
+      "f1_score": 0.8571
+    },
+    {
+      "protocol": "custom_iot_100",
+      "run_id": "custom_iot_100_run2",
+      "analysis_file": "logs/run2/custom_iot_100_run2/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/custom_iot_100_boundaries.json",
+      "total_messages": 200,
+      "total_fields": 8,
+      "precision": 0.7857,
+      "recall": 0.9167,
+      "f1_score": 0.8462
+    },
+    {
+      "protocol": "custom_iot_100",
+      "run_id": "custom_iot_100_run1",
+      "analysis_file": "logs/run2/custom_iot_100_run1/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/custom_iot_100_boundaries.json",
+      "total_messages": 200,
+      "total_fields": 11,
+      "precision": 0.55,
+      "recall": 0.9167,
+      "f1_score": 0.6875
+    },
+    {
+      "protocol": "dns_ictf_100",
+      "run_id": "dns_ictf_100_run6",
+      "analysis_file": "logs/run2/dns_ictf_100_run6/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/dns_ictf_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 7,
+      "precision": 1.0,
+      "recall": 0.75,
+      "f1_score": 0.8571
+    },
+    {
+      "protocol": "smb2_100",
+      "run_id": "smb2_100_run2",
+      "analysis_file": "logs/run2/smb2_100_run2/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/smb2_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 13,
+      "precision": 0.6667,
+      "recall": 0.5714,
+      "f1_score": 0.6154
+    },
+    {
+      "protocol": "s7comm_100",
+      "run_id": "s7comm_100_run1",
+      "analysis_file": "logs/run2/s7comm_100_run1/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/s7comm_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 7,
+      "precision": 1.0,
+      "recall": 0.6977,
+      "f1_score": 0.8219
+    },
+    {
+      "protocol": "ntp_100",
+      "run_id": "ntp_100_run1",
+      "analysis_file": "logs/run2/ntp_100_run1/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/ntp_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 14,
+      "precision": 0.7692,
+      "recall": 1.0,
+      "f1_score": 0.8696
+    },
+    {
+      "protocol": "s7comm_100",
+      "run_id": "s7comm_100_run2",
+      "analysis_file": "logs/run2/s7comm_100_run2/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/s7comm_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 8,
+      "precision": 0.4286,
+      "recall": 0.3488,
+      "f1_score": 0.3846
+    },
+    {
+      "protocol": "dns_ictf_100",
+      "run_id": "dns_ictf_100_run7",
+      "analysis_file": "logs/run2/dns_ictf_100_run7/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/dns_ictf_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 7,
+      "precision": 1.0,
+      "recall": 0.75,
+      "f1_score": 0.8571
+    },
+    {
+      "protocol": "modbus_100",
+      "run_id": "modbus_100_run2",
+      "analysis_file": "logs/run2/modbus_100_run2/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/modbus_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 5,
+      "precision": 1.0,
+      "recall": 0.8,
+      "f1_score": 0.8889
+    },
+    {
+      "protocol": "dns_ictf_100",
+      "run_id": "dns_ictf_100_run3",
+      "analysis_file": "logs/run2/dns_ictf_100_run3/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/dns_ictf_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 8,
+      "precision": 0.8571,
+      "recall": 0.75,
+      "f1_score": 0.8
+    },
+    {
+      "protocol": "smb_100",
+      "run_id": "smb_100_run2",
+      "analysis_file": "logs/run2/smb_100_run2/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/smb_100_boundaries.json",
+      "total_messages": 91,
+      "total_fields": 14,
+      "precision": 0.4615,
+      "recall": 0.4102,
+      "f1_score": 0.4344
+    },
+    {
+      "protocol": "s7comm_plus_100",
+      "run_id": "s7comm_plus_100_run1",
+      "analysis_file": "logs/run2/s7comm_plus_100_run1/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/s7comm_plus_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 9,
+      "precision": 0.875,
+      "recall": 0.6364,
+      "f1_score": 0.7368
+    },
+    {
+      "protocol": "dhcp_100",
+      "run_id": "dhcp_100_run5",
+      "analysis_file": "logs/run2/dhcp_100_run5/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/dhcp_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 18,
+      "precision": 0.6471,
+      "recall": 0.7333,
+      "f1_score": 0.6875
+    },
+    {
+      "protocol": "s7comm_plus_100",
+      "run_id": "s7comm_plus_100_run2",
+      "analysis_file": "logs/run2/s7comm_plus_100_run2/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/s7comm_plus_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 8,
+      "precision": 1.0,
+      "recall": 0.6364,
+      "f1_score": 0.7778
+    },
+    {
+      "protocol": "s7comm_plus_100",
+      "run_id": "s7comm_plus_100_run4",
+      "analysis_file": "logs/run2/s7comm_plus_100_run4/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/s7comm_plus_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 7,
+      "precision": 1.0,
+      "recall": 0.5455,
+      "f1_score": 0.7059
+    },
+    {
+      "protocol": "dnp3_100",
+      "run_id": "dnp3_100_run2",
+      "analysis_file": "logs/run2/dnp3_100_run2/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/dnp3_100_boundaries.json",
+      "total_messages": 114,
+      "total_fields": 9,
+      "precision": 0.75,
+      "recall": 0.6021,
+      "f1_score": 0.668
+    },
+    {
+      "protocol": "hollysys_100",
+      "run_id": "hollysys_100_run1",
+      "analysis_file": "logs/run2/hollysys_100_run1/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/hollysys_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 4,
+      "precision": 1.0,
+      "recall": 0.4545,
+      "f1_score": 0.625
+    },
+    {
+      "protocol": "modbus_100",
+      "run_id": "modbus_100_run6",
+      "analysis_file": "logs/run2/modbus_100_run6/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/modbus_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 7,
+      "precision": 0.8333,
+      "recall": 1.0,
+      "f1_score": 0.9091
+    },
+    {
+      "protocol": "ntp_100",
+      "run_id": "ntp_100_run5",
+      "analysis_file": "logs/run2/ntp_100_run5/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/ntp_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 13,
+      "precision": 0.75,
+      "recall": 0.9,
+      "f1_score": 0.8182
+    },
+    {
+      "protocol": "time_sync_100",
+      "run_id": "time_sync_100_run7",
+      "analysis_file": "logs/run2/time_sync_100_run7/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/time_sync_100_boundaries.json",
+      "total_messages": 200,
+      "total_fields": 12,
+      "precision": 0.7273,
+      "recall": 0.8889,
+      "f1_score": 0.8
+    },
+    {
+      "protocol": "time_sync_100",
+      "run_id": "time_sync_100_run3",
+      "analysis_file": "logs/run2/time_sync_100_run3/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/time_sync_100_boundaries.json",
+      "total_messages": 200,
+      "total_fields": 10,
+      "precision": 0.8889,
+      "recall": 0.8889,
+      "f1_score": 0.8889
+    },
+    {
+      "protocol": "smb2_100",
+      "run_id": "smb2_100_run3",
+      "analysis_file": "logs/run2/smb2_100_run3/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/smb2_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 23,
+      "precision": 0.5909,
+      "recall": 0.9286,
+      "f1_score": 0.7222
+    },
+    {
+      "protocol": "dnp3_100",
+      "run_id": "dnp3_100_run1",
+      "analysis_file": "logs/run2/dnp3_100_run1/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/dnp3_100_boundaries.json",
+      "total_messages": 114,
+      "total_fields": 9,
+      "precision": 0.875,
+      "recall": 0.7025,
+      "f1_score": 0.7793
+    },
+    {
+      "protocol": "time_sync_100",
+      "run_id": "time_sync_100_run1",
+      "analysis_file": "logs/run2/time_sync_100_run1/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/time_sync_100_boundaries.json",
+      "total_messages": 200,
+      "total_fields": 11,
+      "precision": 0.8,
+      "recall": 0.8889,
+      "f1_score": 0.8421
+    },
+    {
+      "protocol": "time_sync_100",
+      "run_id": "time_sync_100_run4",
+      "analysis_file": "logs/run2/time_sync_100_run4/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/time_sync_100_boundaries.json",
+      "total_messages": 200,
+      "total_fields": 11,
+      "precision": 0.9,
+      "recall": 1.0,
+      "f1_score": 0.9474
+    },
+    {
+      "protocol": "s7comm_plus_100",
+      "run_id": "s7comm_plus_100_run7",
+      "analysis_file": "logs/run2/s7comm_plus_100_run7/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/s7comm_plus_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 9,
+      "precision": 0.875,
+      "recall": 0.6364,
+      "f1_score": 0.7368
+    },
+    {
+      "protocol": "dnp3_100",
+      "run_id": "dnp3_100_run7",
+      "analysis_file": "logs/run2/dnp3_100_run7/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/dnp3_100_boundaries.json",
+      "total_messages": 114,
+      "total_fields": 9,
+      "precision": 0.875,
+      "recall": 0.7025,
+      "f1_score": 0.7793
+    },
+    {
+      "protocol": "custom_iot_100",
+      "run_id": "custom_iot_100_run3",
+      "analysis_file": "logs/run2/custom_iot_100_run3/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/custom_iot_100_boundaries.json",
+      "total_messages": 200,
+      "total_fields": 11,
+      "precision": 0.6316,
+      "recall": 1.0,
+      "f1_score": 0.7742
+    },
+    {
+      "protocol": "ntp_100",
+      "run_id": "ntp_100_run7",
+      "analysis_file": "logs/run2/ntp_100_run7/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/ntp_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 11,
+      "precision": 0.8,
+      "recall": 0.8,
+      "f1_score": 0.8
+    },
+    {
+      "protocol": "s7comm_100",
+      "run_id": "s7comm_100_run6",
+      "analysis_file": "logs/run2/s7comm_100_run6/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/s7comm_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 9,
+      "precision": 0.8783,
+      "recall": 0.814,
+      "f1_score": 0.8449
+    },
+    {
+      "protocol": "custom_iot_100",
+      "run_id": "custom_iot_100_run4",
+      "analysis_file": "logs/run2/custom_iot_100_run4/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/custom_iot_100_boundaries.json",
+      "total_messages": 200,
+      "total_fields": 9,
+      "precision": 0.6875,
+      "recall": 0.9167,
+      "f1_score": 0.7857
+    },
+    {
+      "protocol": "smb_100",
+      "run_id": "smb_100_run1",
+      "analysis_file": "logs/run2/smb_100_run1/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/smb_100_boundaries.json",
+      "total_messages": 91,
+      "total_fields": 16,
+      "precision": 0.4667,
+      "recall": 0.4786,
+      "f1_score": 0.4726
+    },
+    {
+      "protocol": "modbus_100",
+      "run_id": "modbus_100_run7",
+      "analysis_file": "logs/run2/modbus_100_run7/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/modbus_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 9,
+      "precision": 0.625,
+      "recall": 1.0,
+      "f1_score": 0.7692
+    },
+    {
+      "protocol": "dns_ictf_100",
+      "run_id": "dns_ictf_100_run2",
+      "analysis_file": "logs/run2/dns_ictf_100_run2/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/dns_ictf_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 7,
+      "precision": 1.0,
+      "recall": 0.75,
+      "f1_score": 0.8571
+    },
+    {
+      "protocol": "ntp_100",
+      "run_id": "ntp_100_run2",
+      "analysis_file": "logs/run2/ntp_100_run2/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/ntp_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 15,
+      "precision": 0.7143,
+      "recall": 1.0,
+      "f1_score": 0.8333
+    },
+    {
+      "protocol": "time_sync_100",
+      "run_id": "time_sync_100_run2",
+      "analysis_file": "logs/run2/time_sync_100_run2/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/time_sync_100_boundaries.json",
+      "total_messages": 200,
+      "total_fields": 10,
+      "precision": 0.8889,
+      "recall": 0.8889,
+      "f1_score": 0.8889
+    },
+    {
+      "protocol": "s7comm_100",
+      "run_id": "s7comm_100_run7",
+      "analysis_file": "logs/run2/s7comm_100_run7/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/s7comm_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 9,
+      "precision": 0.5,
+      "recall": 0.4651,
+      "f1_score": 0.4819
+    },
+    {
+      "protocol": "s7comm_100",
+      "run_id": "s7comm_100_run5",
+      "analysis_file": "logs/run2/s7comm_100_run5/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/s7comm_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 8,
+      "precision": 1.0,
+      "recall": 0.814,
+      "f1_score": 0.8974
+    },
+    {
+      "protocol": "omron_fins_100",
+      "run_id": "omron_fins_100_run4",
+      "analysis_file": "logs/run2/omron_fins_100_run4/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/omron_fins_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 6,
+      "precision": 1.0,
+      "recall": 0.4223,
+      "f1_score": 0.5938
+    },
+    {
+      "protocol": "time_sync_100",
+      "run_id": "time_sync_100_run5",
+      "analysis_file": "logs/run2/time_sync_100_run5/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/time_sync_100_boundaries.json",
+      "total_messages": 200,
+      "total_fields": 10,
+      "precision": 0.8889,
+      "recall": 0.8889,
+      "f1_score": 0.8889
+    },
+    {
+      "protocol": "s7comm_100",
+      "run_id": "s7comm_100_run4",
+      "analysis_file": "logs/run2/s7comm_100_run4/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/s7comm_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 8,
+      "precision": 0.8571,
+      "recall": 0.6977,
+      "f1_score": 0.7692
+    },
+    {
+      "protocol": "ntp_100",
+      "run_id": "ntp_100_run4",
+      "analysis_file": "logs/run2/ntp_100_run4/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/ntp_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 14,
+      "precision": 0.7692,
+      "recall": 1.0,
+      "f1_score": 0.8696
+    },
+    {
+      "protocol": "hollysys_100",
+      "run_id": "hollysys_100_run4",
+      "analysis_file": "logs/run2/hollysys_100_run4/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/hollysys_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 5,
+      "precision": 0.9446,
+      "recall": 0.5424,
+      "f1_score": 0.6891
+    },
+    {
+      "protocol": "smb_100",
+      "run_id": "smb_100_run7",
+      "analysis_file": "logs/run2/smb_100_run7/analysis_result.json",
+      "error": "Field boundary errors in 10 message(s): Field 'variable_payload': offset 35 out of range [0, 35)"
+    },
+    {
+      "protocol": "s7comm_plus_100",
+      "run_id": "s7comm_plus_100_run3",
+      "analysis_file": "logs/run2/s7comm_plus_100_run3/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/s7comm_plus_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 8,
+      "precision": 1.0,
+      "recall": 0.6364,
+      "f1_score": 0.7778
+    },
+    {
+      "protocol": "dnp3_100",
+      "run_id": "dnp3_100_run6",
+      "analysis_file": "logs/run2/dnp3_100_run6/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/dnp3_100_boundaries.json",
+      "total_messages": 114,
+      "total_fields": 8,
+      "precision": 1.0,
+      "recall": 0.6989,
+      "f1_score": 0.8228
+    },
+    {
+      "protocol": "modbus_100",
+      "run_id": "modbus_100_run1",
+      "analysis_file": "logs/run2/modbus_100_run1/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/modbus_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 5,
+      "precision": 1.0,
+      "recall": 0.8,
+      "f1_score": 0.8889
+    },
+    {
+      "protocol": "dhcp_100",
+      "run_id": "dhcp_100_run4",
+      "analysis_file": "logs/run2/dhcp_100_run4/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/dhcp_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 13,
+      "precision": 0.8333,
+      "recall": 0.6667,
+      "f1_score": 0.7407
+    },
+    {
+      "protocol": "smb_100",
+      "run_id": "smb_100_run4",
+      "analysis_file": "logs/run2/smb_100_run4/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/smb_100_boundaries.json",
+      "total_messages": 91,
+      "total_fields": 20,
+      "precision": 0.4737,
+      "recall": 0.6153,
+      "f1_score": 0.5353
+    },
+    {
+      "protocol": "omron_fins_100",
+      "run_id": "omron_fins_100_run7",
+      "analysis_file": "logs/run2/omron_fins_100_run7/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/omron_fins_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 7,
+      "precision": 1.0,
+      "recall": 0.5068,
+      "f1_score": 0.6726
+    },
+    {
+      "protocol": "custom_iot_100",
+      "run_id": "custom_iot_100_run6",
+      "analysis_file": "logs/run2/custom_iot_100_run6/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/custom_iot_100_boundaries.json",
+      "total_messages": 200,
+      "total_fields": 8,
+      "precision": 0.7857,
+      "recall": 0.9167,
+      "f1_score": 0.8462
+    },
+    {
+      "protocol": "omron_fins_100",
+      "run_id": "omron_fins_100_run2",
+      "analysis_file": "logs/run2/omron_fins_100_run2/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/omron_fins_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 7,
+      "precision": 1.0,
+      "recall": 0.5068,
+      "f1_score": 0.6726
+    },
+    {
+      "protocol": "s7comm_100",
+      "run_id": "s7comm_100_run3",
+      "analysis_file": "logs/run2/s7comm_100_run3/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/s7comm_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 9,
+      "precision": 1.0,
+      "recall": 0.9302,
+      "f1_score": 0.9639
+    },
+    {
+      "protocol": "ntp_100",
+      "run_id": "ntp_100_run6",
+      "analysis_file": "logs/run2/ntp_100_run6/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/ntp_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 13,
+      "precision": 0.6667,
+      "recall": 0.8,
+      "f1_score": 0.7273
+    },
+    {
+      "protocol": "smb2_100",
+      "run_id": "smb2_100_run5",
+      "analysis_file": "logs/run2/smb2_100_run5/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/smb2_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 20,
+      "precision": 0.6316,
+      "recall": 0.8571,
+      "f1_score": 0.7273
+    },
+    {
+      "protocol": "dns_ictf_100",
+      "run_id": "dns_ictf_100_run4",
+      "analysis_file": "logs/run2/dns_ictf_100_run4/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/dns_ictf_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 9,
+      "precision": 0.75,
+      "recall": 0.75,
+      "f1_score": 0.75
+    },
+    {
+      "protocol": "dnp3_100",
+      "run_id": "dnp3_100_run3",
+      "analysis_file": "logs/run2/dnp3_100_run3/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/dnp3_100_boundaries.json",
+      "total_messages": 114,
+      "total_fields": 7,
+      "precision": 1.0,
+      "recall": 0.6021,
+      "f1_score": 0.7516
+    },
+    {
+      "protocol": "dnp3_100",
+      "run_id": "dnp3_100_run4",
+      "analysis_file": "logs/run2/dnp3_100_run4/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/dnp3_100_boundaries.json",
+      "total_messages": 114,
+      "total_fields": 8,
+      "precision": 0.8571,
+      "recall": 0.6021,
+      "f1_score": 0.7073
+    },
+    {
+      "protocol": "smb_100",
+      "run_id": "smb_100_run5",
+      "analysis_file": "logs/run2/smb_100_run5/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/smb_100_boundaries.json",
+      "total_messages": 91,
+      "total_fields": 21,
+      "precision": 0.45,
+      "recall": 0.6153,
+      "f1_score": 0.5198
+    },
+    {
+      "protocol": "smb2_100",
+      "run_id": "smb2_100_run6",
+      "analysis_file": "logs/run2/smb2_100_run6/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/smb2_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 20,
+      "precision": 0.5263,
+      "recall": 0.7143,
+      "f1_score": 0.6061
+    },
+    {
+      "protocol": "hollysys_100",
+      "run_id": "hollysys_100_run3",
+      "analysis_file": "logs/run2/hollysys_100_run3/analysis_result.json",
+      "ground_truth_file": "ground_truth/boundaries/hollysys_100_boundaries.json",
+      "total_messages": 100,
+      "total_fields": 5,
+      "precision": 0.75,
+      "recall": 0.4545,
+      "f1_score": 0.566
+    }
+  ]
+}

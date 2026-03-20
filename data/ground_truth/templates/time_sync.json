@@ -1,0 +1,192 @@
+{
+  "protocol": "TimeSync (TSYNC)",
+  "description": "Virtual time synchronization protocol - fixed 32 bytes, big-endian",
+  "boundary_type": "static",
+  "total_length": 32,
+  "fields": [
+    {
+      "name": "magic",
+      "type": "uint16_be",
+      "offset": 0,
+      "size": 2,
+      "description": "Protocol magic number, fixed value 0xABCD"
+    },
+    {
+      "name": "version",
+      "type": "uint8",
+      "offset": 2,
+      "size": 1,
+      "description": "Protocol version, currently 0x01"
+    },
+    {
+      "name": "msg_type",
+      "type": "uint8",
+      "offset": 3,
+      "size": 1,
+      "description": "Message type：0x01=sync request, 0x02=sync response, 0x03=delay request, 0x04=delay response"
+    },
+    {
+      "name": "client_id",
+      "type": "uint32_be",
+      "offset": 4,
+      "size": 4,
+      "description": "Client ID (big-endian)"
+    },
+    {
+      "name": "timestamp_sec",
+      "type": "uint64_be",
+      "offset": 8,
+      "size": 8,
+      "description": "Second-level Unix timestamp (big-endian)"
+    },
+    {
+      "name": "timestamp_nsec",
+      "type": "uint32_be",
+      "offset": 16,
+      "size": 4,
+      "description": "Nanosecond part (big-endian, 0-999999999)"
+    },
+    {
+      "name": "stratum",
+      "type": "uint8",
+      "offset": 20,
+      "size": 1,
+      "description": "Time stratum：0=client request, 1=primary server, 2+=secondary server"
+    },
+    {
+      "name": "precision",
+      "type": "int8",
+      "offset": 21,
+      "size": 1,
+      "description": "Precision exponent (power of 2, e.g., -20 means precision is 2^-20 seconds)"
+    },
+    {
+      "name": "reserved",
+      "type": "bytes",
+      "offset": 22,
+      "size": 8,
+      "description": "Reserved field, padded with 0x00"
+    },
+    {
+      "name": "crc16",
+      "type": "uint16_be",
+      "offset": 30,
+      "size": 2,
+      "description": "CRC16 checksum (CCITT polynomial 0x1021, big-endian)"
+    }
+  ],
+  "static_boundaries": [0, 2, 3, 4, 8, 16, 20, 21, 22, 30, 32],
+  "msg_types": {
+    "0x01": {
+      "name": "MSG_SYNC_REQUEST",
+      "description": "sync request",
+      "typical_stratum": 0,
+      "typical_precision": -18
+    },
+    "0x02": {
+      "name": "MSG_SYNC_RESPONSE",
+      "description": "sync response",
+      "typical_stratum": 1,
+      "typical_precision": -20
+    },
+    "0x03": {
+      "name": "MSG_DELAY_REQUEST",
+      "description": "Delay measurement request",
+      "typical_stratum": 0,
+      "typical_precision": -18
+    },
+    "0x04": {
+      "name": "MSG_DELAY_RESPONSE",
+      "description": "Delay measurement response",
+      "typical_stratum": 1,
+      "typical_precision": -20
+    }
+  },
+  "test_cases": [
+    {
+      "case_id": "sync_request",
+      "packet_hex": "abcd0101427231b30000000067947d8002f7ad1000ee00000000000000001234",
+      "parsed_values": {
+        "magic": "0xABCD",
+        "version": 1,
+        "msg_type": "0x01",
+        "client_id": "0x427231B3",
+        "timestamp_sec": 1737882000,
+        "timestamp_nsec": 49839376,
+        "stratum": 0,
+        "precision": -18,
+        "reserved": "0x0000000000000000",
+        "crc16": "0x1234"
+      },
+      "boundaries": [0, 2, 3, 4, 8, 16, 20, 21, 22, 30, 32],
+      "packet_length": 32,
+      "description": "Client-initiated sync request"
+    },
+    {
+      "case_id": "sync_response",
+      "packet_hex": "abcd0102427231b30000000067947d8002f7b22001ec00000000000000005678",
+      "parsed_values": {
+        "magic": "0xABCD",
+        "version": 1,
+        "msg_type": "0x02",
+        "client_id": "0x427231B3",
+        "timestamp_sec": 1737882000,
+        "timestamp_nsec": 49840672,
+        "stratum": 1,
+        "precision": -20,
+        "reserved": "0x0000000000000000",
+        "crc16": "0x5678"
+      },
+      "boundaries": [0, 2, 3, 4, 8, 16, 20, 21, 22, 30, 32],
+      "packet_length": 32,
+      "description": "Server sync response"
+    },
+    {
+      "case_id": "delay_request",
+      "packet_hex": "abcd0103a1b2c3d40000000067947d8003a1b2c300ee0000000000000000abcd",
+      "parsed_values": {
+        "magic": "0xABCD",
+        "version": 1,
+        "msg_type": "0x03",
+        "client_id": "0xA1B2C3D4",
+        "timestamp_sec": 1737882000,
+        "timestamp_nsec": 61407939,
+        "stratum": 0,
+        "precision": -18,
+        "reserved": "0x0000000000000000",
+        "crc16": "0xABCD"
+      },
+      "boundaries": [0, 2, 3, 4, 8, 16, 20, 21, 22, 30, 32],
+      "packet_length": 32,
+      "description": "Delay measurement request"
+    },
+    {
+      "case_id": "delay_response",
+      "packet_hex": "abcd0104a1b2c3d40000000067947d8003a2b3c401ec0000000000000000ef01",
+      "parsed_values": {
+        "magic": "0xABCD",
+        "version": 1,
+        "msg_type": "0x04",
+        "client_id": "0xA1B2C3D4",
+        "timestamp_sec": 1737882000,
+        "timestamp_nsec": 61473732,
+        "stratum": 1,
+        "precision": -20,
+        "reserved": "0x0000000000000000",
+        "crc16": "0xEF01"
+      },
+      "boundaries": [0, 2, 3, 4, 8, 16, 20, 21, 22, 30, 32],
+      "packet_length": 32,
+      "description": "Delay measurement response"
+    }
+  ],
+  "notes": [
+    "This is a virtual time synchronization protocol designed for testing LLM protocol reverse engineering capability",
+    "Fixed length 32 bytes, all messages share the same boundary structure",
+    "Uses big-endian byte order",
+    "Similar to NTP protocol design, containing timestamps and stratum information",
+    "Contains request/response message types, supporting both sync and delay measurement modes",
+    "CRC16 uses CCITT polynomial (0x1021)",
+    "Timestamp is split into seconds (8 bytes) and nanoseconds (4 bytes), providing high-precision time"
+  ]
+}

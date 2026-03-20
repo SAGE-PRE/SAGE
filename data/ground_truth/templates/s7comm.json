@@ -1,0 +1,133 @@
+{
+  "protocol": "S7comm",
+  "description": "Siemens S7 Communication Protocol - Siemens S7 communication protocol (S7-300/400 series)",
+  "boundary_type": "dynamic",
+  "fields": [
+    {
+      "name": "protocol_id",
+      "type": "uint8",
+      "offset": 0,
+      "size": 1,
+      "description": "Protocol identifier, fixed as 0x32"
+    },
+    {
+      "name": "rosctr",
+      "type": "uint8",
+      "offset": 1,
+      "size": 1,
+      "description": "Remote operation control: 0x01=Job, 0x02=Ack, 0x03=Ack_Data, 0x07=Userdata"
+    },
+    {
+      "name": "reserved",
+      "type": "uint16_be",
+      "offset": 2,
+      "size": 2,
+      "description": "Reserved field, usually 0x0000"
+    },
+    {
+      "name": "pdu_reference",
+      "type": "uint16_be",
+      "offset": 4,
+      "size": 2,
+      "description": "PDU reference number, for request-response matching"
+    },
+    {
+      "name": "parameter_len",
+      "type": "uint16_be",
+      "offset": 6,
+      "size": 2,
+      "description": "Parameter area length"
+    },
+    {
+      "name": "data_len",
+      "type": "uint16_be",
+      "offset": 8,
+      "size": 2,
+      "description": "Data area length"
+    },
+    {
+      "name": "function",
+      "type": "uint8",
+      "offset": 10,
+      "size": 1,
+      "description": "Function code: 0x04=read variable, 0x05=write variable, 0xF0=setup communication"
+    },
+    {
+      "name": "item_count",
+      "type": "uint8",
+      "offset": 11,
+      "size": 1,
+      "description": "Number of data items"
+    },
+    {
+      "name": "parameter",
+      "type": "bytes",
+      "offset": 12,
+      "size": "@parameter_len - 2",
+      "description": "Parameter data (e.g., read/write address)"
+    },
+    {
+      "name": "data",
+      "type": "bytes",
+      "offset": "$parameter#",
+      "size": "@data_len",
+      "description": "Data area"
+    }
+  ],
+  "test_cases": [
+    {
+      "case_id": "s7comm_read_request",
+      "packet_hex": "320100000001000E00000401120A10020001000082000000",
+      "parsed_values": {
+        "protocol_id": "0x32",
+        "rosctr": 1,
+        "pdu_reference": 1,
+        "parameter_len": 14,
+        "data_len": 0,
+        "function": 4,
+        "item_count": 1
+      },
+      "boundaries": [0, 1, 2, 4, 6, 8, 10, 11, 12, 24],
+      "packet_length": 24,
+      "description": "S7Comm read variable request"
+    },
+    {
+      "case_id": "s7comm_read_response",
+      "packet_hex": "320300000001000200080000FF040020001122334455667788",
+      "parsed_values": {
+        "protocol_id": "0x32",
+        "rosctr": 3,
+        "pdu_reference": 1,
+        "parameter_len": 2,
+        "data_len": 8,
+        "function": 4,
+        "item_count": 1
+      },
+      "boundaries": [0, 1, 2, 4, 6, 8, 10, 11, 12, 12, 20],
+      "packet_length": 24,
+      "description": "S7Comm read variable response"
+    },
+    {
+      "case_id": "s7comm_setup_comm",
+      "packet_hex": "320100000000000800000000F0000001000101E0",
+      "parsed_values": {
+        "protocol_id": "0x32",
+        "rosctr": 1,
+        "pdu_reference": 0,
+        "parameter_len": 8,
+        "data_len": 0,
+        "function": 240,
+        "item_count": 0
+      },
+      "boundaries": [0, 1, 2, 4, 6, 8, 10, 11, 12, 18],
+      "packet_length": 20,
+      "description": "S7Comm setup communication request"
+    }
+  ],
+  "notes": [
+    "S7Comm is the communication protocol used by Siemens S7-300/400 series PLCs",
+    "Runs on top of ISO-TSAP (RFC 1006)",
+    "Protocol header(10 bytes) + function(1) + item_count(1) + parameter + data",
+    "Common function codes: 0x04=read variable, 0x05=write variable, 0xF0=setup communication, 0x00=CPU diagnostics"
+  ]
+}

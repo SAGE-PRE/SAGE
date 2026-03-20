@@ -1,0 +1,152 @@
+{
+  "protocol": "OMRON FINS",
+  "description": "OMRON Factory Interface Network Service - OMRON industrial Ethernet protocol (skipping 16-byte FINS/TCP encapsulation header)",
+  "boundary_type": "dynamic",
+  "skip_bytes": 16,
+  "skip_description": "Skip 16-byte FINS/TCP encapsulation header: magic(4) + length(4) + command(4) + error_code(4)",
+  "fields": [
+    {
+      "name": "icf",
+      "type": "uint8",
+      "offset": 0,
+      "size": 1,
+      "description": "Information control field: bit7=response flag, bit6=gateway usage, bit0=response required"
+    },
+    {
+      "name": "rsv",
+      "type": "uint8",
+      "offset": 1,
+      "size": 1,
+      "description": "Reserved field, fixed as 0x00"
+    },
+    {
+      "name": "gct",
+      "type": "uint8",
+      "offset": 2,
+      "size": 1,
+      "description": "Gateway count"
+    },
+    {
+      "name": "dna",
+      "type": "uint8",
+      "offset": 3,
+      "size": 1,
+      "description": "Destination network address"
+    },
+    {
+      "name": "da1",
+      "type": "uint8",
+      "offset": 4,
+      "size": 1,
+      "description": "Destination node address"
+    },
+    {
+      "name": "da2",
+      "type": "uint8",
+      "offset": 5,
+      "size": 1,
+      "description": "Destination unit address"
+    },
+    {
+      "name": "sna",
+      "type": "uint8",
+      "offset": 6,
+      "size": 1,
+      "description": "Source network address"
+    },
+    {
+      "name": "sa1",
+      "type": "uint8",
+      "offset": 7,
+      "size": 1,
+      "description": "Source node address"
+    },
+    {
+      "name": "sa2",
+      "type": "uint8",
+      "offset": 8,
+      "size": 1,
+      "description": "Source unit address"
+    },
+    {
+      "name": "sid",
+      "type": "uint8",
+      "offset": 9,
+      "size": 1,
+      "description": "Service ID, for request-response matching"
+    },
+    {
+      "name": "main_command",
+      "type": "uint8",
+      "offset": 10,
+      "size": 1,
+      "description": "Main command code: 01=memory area read/write, 02=parameter area read/write, 05=operation mode"
+    },
+    {
+      "name": "sub_command",
+      "type": "uint8",
+      "offset": 11,
+      "size": 1,
+      "description": "Sub command code: 01=read, 02=write"
+    },
+    {
+      "name": "data",
+      "type": "bytes",
+      "offset": 12,
+      "size": "@total_length - 12",
+      "description": "Command data (memory area type, address, read length, etc.)"
+    }
+  ],
+  "test_cases": [
+    {
+      "case_id": "fins_memory_read_request",
+      "packet_hex": "8000070000000000fd000101820000000A",
+      "parsed_values": {
+        "icf": 128,
+        "rsv": 0,
+        "gct": 7,
+        "dna": 0,
+        "da1": 0,
+        "da2": 0,
+        "sna": 0,
+        "sa1": 253,
+        "sa2": 0,
+        "sid": 1,
+        "main_command": 1,
+        "sub_command": 1
+      },
+      "boundaries": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      "packet_length": 17,
+      "description": "FINS memory area read request (0101 command)"
+    },
+    {
+      "case_id": "fins_memory_read_response",
+      "packet_hex": "0C00020000FD00000001010000001122334455",
+      "parsed_values": {
+        "icf": 12,
+        "rsv": 0,
+        "gct": 2,
+        "dna": 0,
+        "da1": 0,
+        "da2": 253,
+        "sna": 0,
+        "sa1": 0,
+        "sa2": 0,
+        "sid": 1,
+        "main_command": 1,
+        "sub_command": 1
+      },
+      "boundaries": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      "packet_length": 20,
+      "description": "FINS memory area read response"
+    }
+  ],
+  "notes": [
+    "OMRON FINS is the industrial Ethernet communication protocol for OMRON PLCs",
+    "This ground truth skips the 16-byte FINS/TCP encapsulation header",
+    "FINS/TCP encapsulation header: magic('FINS') + length + command + error_code",
+    "FINS frame: header(10 bytes) + command(2 bytes) + data",
+    "Command code format: main command(1 byte) + sub command(1 byte)",
+    "Common commands: 0101=memory read, 0102=memory write, 0501=operation mode read"
+  ]
+}

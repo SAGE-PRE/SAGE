@@ -1,0 +1,102 @@
+{
+  "protocol": "Modbus TCP",
+  "description": "Modbus TCP - Industrial automation communication protocol",
+  "boundary_type": "dynamic",
+  "fields": [
+    {
+      "name": "transaction_id",
+      "type": "uint16_be",
+      "offset": 0,
+      "size": 2,
+      "description": "Transaction identifier"
+    },
+    {
+      "name": "protocol_id",
+      "type": "uint16_be",
+      "offset": 2,
+      "size": 2,
+      "description": "Protocol identifier，Modbus TCP fixed as 0x0000"
+    },
+    {
+      "name": "length",
+      "type": "uint16_be",
+      "offset": 4,
+      "size": 2,
+      "description": "Remaining byte count（unit_id + pdu）"
+    },
+    {
+      "name": "unit_id",
+      "type": "uint8",
+      "offset": 6,
+      "size": 1,
+      "description": "Unit identifier / slave address"
+    },
+    {
+      "name": "function_code",
+      "type": "uint8",
+      "offset": 7,
+      "size": 1,
+      "description": "Function code：01=read coils, 02=read discrete inputs, 03=read holding registers, 04=read input registers, 05=write single coil, 06=write single register, 0F=write multiple coils, 10=write multiple registers"
+    },
+    {
+      "name": "data",
+      "type": "bytes",
+      "offset": 8,
+      "size": "@length - 2",
+      "description": "Function code related data"
+    }
+  ],
+  "test_cases": [
+    {
+      "case_id": "read_coils_request",
+      "packet_hex": "000100000006010100000010",
+      "parsed_values": {
+        "transaction_id": "0x0001",
+        "protocol_id": "0x0000",
+        "length": 6,
+        "unit_id": 1,
+        "function_code": 1,
+        "data_hex": "00000010"
+      },
+      "boundaries": [0, 2, 4, 6, 7, 8],
+      "packet_length": 12,
+      "description": "Read coils request: start address 0x0000, quantity 16"
+    },
+    {
+      "case_id": "write_single_coil",
+      "packet_hex": "000200000006010500010000",
+      "parsed_values": {
+        "transaction_id": "0x0002",
+        "protocol_id": "0x0000",
+        "length": 6,
+        "unit_id": 1,
+        "function_code": 5,
+        "data_hex": "00010000"
+      },
+      "boundaries": [0, 2, 4, 6, 7, 8],
+      "packet_length": 12,
+      "description": "Write single coil: address 0x0001, value OFF"
+    },
+    {
+      "case_id": "read_holding_registers",
+      "packet_hex": "00030000000601030000000A",
+      "parsed_values": {
+        "transaction_id": "0x0003",
+        "protocol_id": "0x0000",
+        "length": 6,
+        "unit_id": 1,
+        "function_code": 3,
+        "data_hex": "0000000A"
+      },
+      "boundaries": [0, 2, 4, 6, 7, 8],
+      "packet_length": 12,
+      "description": "Read holding registers: start address 0x0000, quantity 10"
+    }
+  ],
+  "notes": [
+    "Modbus TCP is one of the most widely used communication protocols in industrial automation",
+    "MBAP header (7 bytes) + PDU (function_code + data)",
+    "Function code determines the specific structure of the data section",
+    "Common function codes: 01-04 for read operations, 05-06 for single write, 0F-10 for multiple write"
+  ]
+}

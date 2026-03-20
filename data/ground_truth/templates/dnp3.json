@@ -1,0 +1,127 @@
+{
+  "protocol": "DNP3",
+  "description": "Distributed Network Protocol 3 (Power/Water SCADA systems)",
+  "boundary_type": "dynamic",
+  "fields": [
+    {
+      "name": "start_bytes",
+      "type": "uint16_be",
+      "offset": 0,
+      "size": 2,
+      "description": "Start bytes, fixed value 0x0564"
+    },
+    {
+      "name": "length",
+      "type": "uint8",
+      "offset": 2,
+      "size": 1,
+      "description": "Data link layer frame length (excluding CRC)"
+    },
+    {
+      "name": "control",
+      "type": "uint8",
+      "offset": 3,
+      "size": 1,
+      "description": "Control byte (DIR, PRM, FCB, FCV, Function code)"
+    },
+    {
+      "name": "destination",
+      "type": "uint16_le",
+      "offset": 4,
+      "size": 2,
+      "description": "Destination address (little-endian)"
+    },
+    {
+      "name": "source",
+      "type": "uint16_le",
+      "offset": 6,
+      "size": 2,
+      "description": "Source address (little-endian)"
+    },
+    {
+      "name": "header_crc",
+      "type": "uint16_le",
+      "offset": 8,
+      "size": 2,
+      "description": "Data link layer header CRC (little-endian)"
+    },
+    {
+      "name": "transport_header",
+      "type": "uint8",
+      "offset": 10,
+      "size": 1,
+      "description": "Transport layer header (FIN, FIR, sequence number)"
+    },
+    {
+      "name": "app_control",
+      "type": "uint8",
+      "offset": 11,
+      "size": 1,
+      "description": "Application layer control byte (FIN, FIR, CON, UNS, sequence number)"
+    },
+    {
+      "name": "function_code",
+      "type": "uint8",
+      "offset": 12,
+      "size": 1,
+      "description": "Application layer function code: 0x01=read, 0x02=write, 0x81=response"
+    },
+    {
+      "name": "app_data",
+      "type": "bytes",
+      "offset": 13,
+      "size": "@length - 5",
+      "description": "Application layer data objects"
+    },
+    {
+      "name": "data_crc",
+      "type": "uint16_le",
+      "offset": "@total_length - 2",
+      "size": 2,
+      "description": "Data block CRC (little-endian)"
+    }
+  ],
+  "test_cases": [
+    {
+      "case_id": "dnp3_read_request",
+      "packet_hex": "05640F44010064ABCDC0C101003C01060001",
+      "parsed_values": {
+        "start_bytes": "0x0564",
+        "length": 15,
+        "control": 68,
+        "destination": 1,
+        "source": 100,
+        "transport_header": 192,
+        "app_control": 193,
+        "function_code": 1
+      },
+      "boundaries": [0, 2, 3, 4, 6, 8, 10, 11, 12, 13, 18],
+      "packet_length": 20,
+      "description": "DNP3 read request (function code 0x01)"
+    },
+    {
+      "case_id": "dnp3_response",
+      "packet_hex": "05640C00010064ABCDC0C1810000CDEF",
+      "parsed_values": {
+        "start_bytes": "0x0564",
+        "length": 12,
+        "control": 0,
+        "destination": 1,
+        "source": 100,
+        "transport_header": 192,
+        "app_control": 193,
+        "function_code": 129
+      },
+      "boundaries": [0, 2, 3, 4, 6, 8, 10, 11, 12, 13, 15],
+      "packet_length": 17,
+      "description": "DNP3 response (function code 0x81)"
+    }
+  ],
+  "notes": [
+    "DNP3 is the standard protocol for SCADA systems in power and water utilities, IEEE 1815",
+    "Data Link layer: start(2) + length(1) + control(1) + dest(2) + src(2) + crc(2)",
+    "Transport layer: 1-byte header, handles fragmentation",
+    "Application layer: control(1) + function(1) + objects",
+    "Every 16 bytes of data followed by 2 bytes of CRC"
+  ]
+}

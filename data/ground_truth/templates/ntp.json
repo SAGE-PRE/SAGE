@@ -1,0 +1,74 @@
+{
+  "protocol": "NTP",
+  "description": "Network Time Protocol - Network Time Protocol",
+  "boundary_type": "static",
+  "fields": [
+    {
+      "name": "li_vn_mode",
+      "type": "uint8",
+      "offset": 0,
+      "size": 1
+    },
+    {
+      "name": "stratum",
+      "type": "uint8",
+      "offset": 1,
+      "size": 1
+    },
+    {
+      "name": "poll",
+      "type": "uint8",
+      "offset": 2,
+      "size": 1
+    },
+    {
+      "name": "precision",
+      "type": "uint8",
+      "offset": 3,
+      "size": 1
+    },
+    {
+      "name": "root_delay",
+      "type": "uint32_be",
+      "offset": 4,
+      "size": 4
+    },
+    {
+      "name": "root_dispersion",
+      "type": "uint32_be",
+      "offset": 8,
+      "size": 4
+    },
+    {
+      "name": "reference_id",
+      "type": "uint32_be",
+      "offset": 12,
+      "size": 4
+    },
+    {
+      "name": "reference_timestamp",
+      "type": "timestamp_64",
+      "offset": 16,
+      "size": 8
+    },
+    {
+      "name": "origin_timestamp",
+      "type": "timestamp_64",
+      "offset": 24,
+      "size": 8
+    },
+    {
+      "name": "receive_timestamp",
+      "type": "timestamp_64",
+      "offset": 32,
+      "size": 8
+    },
+    {
+      "name": "transmit_timestamp",
+      "type": "timestamp_64",
+      "offset": 40,
+      "size": 8
+    }
+  ],
+  "static_boundaries": [0, 1, 2, 3, 4, 8, 12, 16, 24, 32, 40]
+}

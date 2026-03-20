@@ -1,0 +1,201 @@
+{
+  "protocol": "GameSync (GSYNC)",
+  "description": "Virtual game status synchronization protocol - TLV encoding, little-endian byte order, CRC32 checksum",
+  "boundary_type": "dynamic",
+  "fields": [
+    {
+      "name": "sync_word",
+      "type": "uint16_le",
+      "offset": 0,
+      "size": 2,
+      "description": "Sync word, fixed value 0xDEAD (stored as AD DE in little-endian)"
+    },
+    {
+      "name": "version",
+      "type": "uint8",
+      "offset": 2,
+      "size": 1,
+      "description": "Protocol version, currently 0x02"
+    },
+    {
+      "name": "packet_id",
+      "type": "uint16_le",
+      "offset": 3,
+      "size": 2,
+      "description": "Incremental packet ID (little-endian)"
+    },
+    {
+      "name": "tlv_count",
+      "type": "uint8",
+      "offset": 5,
+      "size": 1,
+      "description": "Number of TLV blocks"
+    },
+    {
+      "name": "tlv_blocks",
+      "type": "tlv_array",
+      "offset": 6,
+      "size": "remaining - 4",
+      "description": "Multiple TLV blocks, each block format: Type(1B) | Length(2B,LE) | Value(NB)",
+      "tlv_format": {
+        "type_size": 1,
+        "length_size": 2,
+        "length_endian": "little"
+      },
+      "tlv_types": {
+        "0x01": {
+          "name": "TLV_PLAYER_POS",
+          "description": "Player position",
+          "value_structure": [
+            {"name": "player_id", "type": "uint8", "offset": 0, "size": 1, "description": "Player ID"},
+            {"name": "x", "type": "float32_le", "offset": 1, "size": 4, "description": "X coordinate"},
+            {"name": "y", "type": "float32_le", "offset": 5, "size": 4, "description": "Y coordinate"},
+            {"name": "z", "type": "float32_le", "offset": 9, "size": 4, "description": "Z coordinate"}
+          ]
+        },
+        "0x02": {
+          "name": "TLV_PLAYER_HEALTH",
+          "description": "Player health",
+          "value_structure": [
+            {"name": "player_id", "type": "uint8", "offset": 0, "size": 1, "description": "Player ID"},
+            {"name": "health", "type": "uint16_le", "offset": 1, "size": 2, "description": "Health value (0-100)"}
+          ]
+        },
+        "0x03": {
+          "name": "TLV_PLAYER_SCORE",
+          "description": "Player score",
+          "value_structure": [
+            {"name": "player_id", "type": "uint8", "offset": 0, "size": 1, "description": "Player ID"},
+            {"name": "score", "type": "uint32_le", "offset": 1, "size": 4, "description": "Player score"}
+          ]
+        },
+        "0x04": {
+          "name": "TLV_GAME_EVENT",
+          "description": "Game event",
+          "value_structure": [
+            {"name": "event_id", "type": "uint8", "offset": 0, "size": 1, "description": "Event ID: 1=kill, 2=death, 3=pickup item"},
+            {"name": "event_data", "type": "bytes", "offset": 1, "size": "remaining", "description": "Event additional data"}
+          ]
+        },
+        "0x05": {
+          "name": "TLV_TIMESTAMP",
+          "description": "Timestamp",
+          "value_structure": [
+            {"name": "timestamp", "type": "uint32_le", "offset": 0, "size": 4, "description": "Unix timestamp (seconds)"}
+          ]
+        }
+      }
+    },
+    {
+      "name": "crc32",
+      "type": "uint32_le",
+      "offset": "$tlv_blocks#",
+      "size": 4,
+      "description": "CRC32 checksum (little-endian), calculated from sync_word to all TLV blocks"
+    }
+  ],
+  "test_cases": [
+    {
+      "case_id": "position_update",
+      "description": "Player 1 position update packet",
+      "parsed_values": {
+        "sync_word": "0xDEAD",
+        "version": 2,
+        "packet_id": 0,
+        "tlv_count": 2,
+        "tlvs": [
+          {
+            "type": "0x01",
+            "length": 13,
+            "value": {
+              "player_id": 1,
+              "x": 10.5,
+              "y": 20.0,
+              "z": -5.25
+            }
+          },
+          {
+            "type": "0x05",
+            "length": 4,
+            "value": {
+              "timestamp": 1737331200
+            }
+          }
+        ]
+      },
+      "boundaries": [0, 2, 3, 5, 6, "TLV1_start", "TLV2_start", "crc_offset"]
+    },
+    {
+      "case_id": "status_update",
+      "description": "Player status update packet",
+      "parsed_values": {
+        "sync_word": "0xDEAD",
+        "version": 2,
+        "packet_id": 1,
+        "tlv_count": 3,
+        "tlvs": [
+          {
+            "type": "0x02",
+            "length": 3,
+            "value": {
+              "player_id": 2,
+              "health": 75
+            }
+          },
+          {
+            "type": "0x03",
+            "length": 5,
+            "value": {
+              "player_id": 2,
+              "score": 5000
+            }
+          },
+          {
+            "type": "0x05",
+            "length": 4,
+            "value": {
+              "timestamp": 1737331205
+            }
+          }
+        ]
+      },
+      "boundaries": [0, 2, 3, 5, 6, "TLV1_start", "TLV2_start", "TLV3_start", "crc_offset"]
+    },
+    {
+      "case_id": "game_event",
+      "description": "Game event packet (kill event)",
+      "parsed_values": {
+        "sync_word": "0xDEAD",
+        "version": 2,
+        "packet_id": 2,
+        "tlv_count": 2,
+        "tlvs": [
+          {
+            "type": "0x04",
+            "length": 3,
+            "value": {
+              "event_id": 1,
+              "event_data": "target_id"
+            }
+          },
+          {
+            "type": "0x05",
+            "length": 4,
+            "value": {
+              "timestamp": 1737331210
+            }
+          }
+        ]
+      },
+      "boundaries": [0, 2, 3, 5, 6, "TLV1_start", "TLV2_start", "crc_offset"]
+    }
+  ],
+  "notes": [
+    "Completely virtual game protocol for testing LLM's ability to recognize TLV encoding format",
+    "Uses little-endian byte order, in contrast to CustomIoT's big-endian",
+    "Uses CRC32 checksum instead of simple XOR checksum",
+    "TLV encoding: Type(1B) + Length(2B,LE) + Value(variable)",
+    "Protocol feature: dynamic quantity of TLV blocks, each packet may contain different combinations",
+    "Each TLV's Value has a clear internal structure, easy to parse"
+  ]
+}

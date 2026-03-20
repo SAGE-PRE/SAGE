@@ -1,0 +1,152 @@
+{
+  "protocol": "SMB2",
+  "description": "Server Message Block version 2 - Server Message Block protocol version 2",
+  "boundary_type": "dynamic",
+  "fields": [
+    {
+      "name": "protocol_id",
+      "type": "bytes",
+      "offset": 0,
+      "size": 4,
+      "description": "Protocol identifier, fixed as 0xFE534D42 ('\\xFESMB')"
+    },
+    {
+      "name": "header_length",
+      "type": "uint16_le",
+      "offset": 4,
+      "size": 2,
+      "description": "Header length, usually 64"
+    },
+    {
+      "name": "credit_charge",
+      "type": "uint16_le",
+      "offset": 6,
+      "size": 2,
+      "description": "Credit charge"
+    },
+    {
+      "name": "status",
+      "type": "uint32_le",
+      "offset": 8,
+      "size": 4,
+      "description": "NTStatus code"
+    },
+    {
+      "name": "command",
+      "type": "uint16_le",
+      "offset": 12,
+      "size": 2,
+      "description": "Command code：0=Negotiate, 1=Session Setup, 3=Tree Connect, 5=Create, 8=Read, 9=Write"
+    },
+    {
+      "name": "credit_request_response",
+      "type": "uint16_le",
+      "offset": 14,
+      "size": 2,
+      "description": "Credit request/response count"
+    },
+    {
+      "name": "flags",
+      "type": "uint32_le",
+      "offset": 16,
+      "size": 4,
+      "description": "Flags: bit0=response, bit1=async, bit2=signature, etc."
+    },
+    {
+      "name": "next_command",
+      "type": "uint32_le",
+      "offset": 20,
+      "size": 4,
+      "description": "Next command offset (compound request)"
+    },
+    {
+      "name": "message_id",
+      "type": "uint64_le",
+      "offset": 24,
+      "size": 8,
+      "description": "Message ID"
+    },
+    {
+      "name": "process_id",
+      "type": "uint32_le",
+      "offset": 32,
+      "size": 4,
+      "description": "Process ID (or AsyncId high 32 bits)"
+    },
+    {
+      "name": "tree_id",
+      "type": "uint32_le",
+      "offset": 36,
+      "size": 4,
+      "description": "Tree connection ID (or AsyncId low 32 bits)"
+    },
+    {
+      "name": "session_id",
+      "type": "uint64_le",
+      "offset": 40,
+      "size": 8,
+      "description": "Session ID"
+    },
+    {
+      "name": "signature",
+      "type": "bytes",
+      "offset": 48,
+      "size": 16,
+      "description": "Security signature"
+    },
+    {
+      "name": "structure_size",
+      "type": "uint16_le",
+      "offset": 64,
+      "size": 2,
+      "description": "Command-specific structure size"
+    },
+    {
+      "name": "data",
+      "type": "bytes",
+      "offset": 66,
+      "size": "@total_length - 66",
+      "description": "Command-specific data"
+    }
+  ],
+  "test_cases": [
+    {
+      "case_id": "smb2_negotiate_request",
+      "packet_hex": "FE534D42400000000000000000000100010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000240001001F0200000000000000000000000000000000000000000000FCFFFFFF00000000",
+      "parsed_values": {
+        "protocol_id": "0xFE534D42",
+        "header_length": 64,
+        "credit_charge": 0,
+        "status": 0,
+        "command": 0,
+        "message_id": 0,
+        "structure_size": 36
+      },
+      "boundaries": [0, 4, 6, 8, 12, 14, 16, 20, 24, 32, 36, 40, 48, 64, 66],
+      "packet_length": 100,
+      "description": "SMB2 Negotiate request"
+    },
+    {
+      "case_id": "smb2_session_setup",
+      "packet_hex": "FE534D4240000100000000000100000001000000000000000100000000000000FFFE0000000000000000000000000000000000000000000000000000000000001900000100000000000000005800480000",
+      "parsed_values": {
+        "protocol_id": "0xFE534D42",
+        "header_length": 64,
+        "credit_charge": 1,
+        "status": 0,
+        "command": 1,
+        "structure_size": 25
+      },
+      "boundaries": [0, 4, 6, 8, 12, 14, 16, 20, 24, 32, 36, 40, 48, 64, 66],
+      "packet_length": 82,
+      "description": "SMB2 Session Setup request"
+    }
+  ],
+  "notes": [
+    "SMB2 is the default file sharing protocol after Windows Vista",
+    "Fixed 64-byte header + command-specific data",
+    "structure_size is the fixed structure size for each command, excluding variable data",
+    "Uses little-endian byte order",
+    "Commands: 0=Negotiate, 1=Session Setup, 3=Tree Connect, 5=Create"
+  ]
+}

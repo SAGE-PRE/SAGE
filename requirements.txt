@@ -1,0 +1,14 @@
+# SAGE Framework Dependencies
+
+# LLM Clients
+openai>=1.0.0
+google-generativeai>=0.3.0
+
+# Network Packet Analysis
+scapy>=2.5.0
+
+# Data Analysis & Visualization
+numpy>=1.24.0
+pandas>=2.0.0
+matplotlib>=3.7.0
+seaborn>=0.12.0

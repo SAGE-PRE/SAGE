@@ -1,0 +1,226 @@
+{
+  "protocol": "CustomIoT (CIOT)",
+  "description": "Custom IoT sensor data transport protocol - a virtual protocol designed for testing LLM reverse engineering capabilities",
+  "boundary_type": "dynamic",
+  "fields": [
+    {
+      "name": "magic",
+      "type": "uint16_be",
+      "offset": 0,
+      "size": 2,
+      "description": "Protocol magic number, fixed value 0xCAFE"
+    },
+    {
+      "name": "version",
+      "type": "uint8",
+      "offset": 2,
+      "size": 1,
+      "description": "Protocol version number, currently 0x01"
+    },
+    {
+      "name": "msg_type",
+      "type": "uint8",
+      "offset": 3,
+      "size": 1,
+      "description": "Message type：0x10=temperature request, 0x11=temperature response, 0x20=humidity request, 0x21=humidity response, 0x30=status request, 0x31=status response"
+    },
+    {
+      "name": "sequence",
+      "type": "uint32_be",
+      "offset": 4,
+      "size": 4,
+      "description": "Incremental sequence number"
+    },
+    {
+      "name": "length",
+      "type": "uint16_be",
+      "offset": 8,
+      "size": 2,
+      "description": "Payload length (in bytes)"
+    },
+    {
+      "name": "payload",
+      "type": "struct",
+      "offset": 10,
+      "size": "@length",
+      "description": "Variable-length payload data, structure varies based on msg_type",
+      "payload_structures": {
+        "0x10": {
+          "name": "temp_request_payload",
+          "description": "Temperature read request payload",
+          "fields": [
+            {"name": "sensor_id", "type": "uint16_be", "offset": 0, "size": 2, "description": "Sensor ID"}
+          ]
+        },
+        "0x11": {
+          "name": "temp_response_payload",
+          "description": "Temperature read response payload",
+          "fields": [
+            {"name": "sensor_id", "type": "uint16_be", "offset": 0, "size": 2, "description": "Sensor ID"},
+            {"name": "temperature", "type": "int16_be", "offset": 2, "size": 2, "description": "Temperature value (0.01°C unit)"}
+          ]
+        },
+        "0x20": {
+          "name": "humid_request_payload",
+          "description": "Humidity read request payload",
+          "fields": [
+            {"name": "sensor_id", "type": "uint16_be", "offset": 0, "size": 2, "description": "Sensor ID"}
+          ]
+        },
+        "0x21": {
+          "name": "humid_response_payload",
+          "description": "Humidity read response payload",
+          "fields": [
+            {"name": "sensor_id", "type": "uint16_be", "offset": 0, "size": 2, "description": "Sensor ID"},
+            {"name": "humidity", "type": "uint8", "offset": 2, "size": 1, "description": "Humidity percentage (0-100)"}
+          ]
+        },
+        "0x30": {
+          "name": "status_request_payload",
+          "description": "Status query request payload",
+          "fields": [
+            {"name": "sensor_id", "type": "uint16_be", "offset": 0, "size": 2, "description": "Sensor ID"}
+          ]
+        },
+        "0x31": {
+          "name": "status_response_payload",
+          "description": "Status query response payload",
+          "fields": [
+            {"name": "sensor_id", "type": "uint16_be", "offset": 0, "size": 2, "description": "Sensor ID"},
+            {"name": "status", "type": "uint8", "offset": 2, "size": 1, "description": "Status code：0=idle, 1=active, 2=error"},
+            {"name": "battery", "type": "uint8", "offset": 3, "size": 1, "description": "Battery percentage (0-100)"}
+          ]
+        }
+      }
+    },
+    {
+      "name": "checksum",
+      "type": "uint16_be",
+      "offset": "$payload#",
+      "size": 2,
+      "description": "XOR checksum (XOR all bytes except checksum as 16-bit words)"
+    }
+  ],
+  "test_cases": [
+    {
+      "case_id": "temp_request",
+      "packet_hex": "cafe01100000000000021003dbdf",
+      "parsed_values": {
+        "magic": "0xCAFE",
+        "version": 1,
+        "msg_type": "0x10",
+        "sequence": 0,
+        "length": 2,
+        "payload": {
+          "sensor_id": "0x1003"
+        },
+        "checksum": "0xDBDF"
+      },
+      "boundaries": [0, 2, 3, 4, 8, 10, 12],
+      "packet_length": 14,
+      "description": "Sensor ID 0x1003  temperature read request"
+    },
+    {
+      "case_id": "temp_response",
+      "packet_hex": "cafe0111000000010004100308c1a3f2",
+      "parsed_values": {
+        "magic": "0xCAFE",
+        "version": 1,
+        "msg_type": "0x11",
+        "sequence": 1,
+        "length": 4,
+        "payload": {
+          "sensor_id": "0x1003",
+          "temperature": 2241
+        },
+        "checksum": "0xA3F2"
+      },
+      "boundaries": [0, 2, 3, 4, 8, 10, 14],
+      "packet_length": 16,
+      "description": "Sensor ID 0x1003  temperature response（22.41℃）"
+    },
+    {
+      "case_id": "humid_request",
+      "packet_hex": "cafe01200000000200021001dbdd",
+      "parsed_values": {
+        "magic": "0xCAFE",
+        "version": 1,
+        "msg_type": "0x20",
+        "sequence": 2,
+        "length": 2,
+        "payload": {
+          "sensor_id": "0x1001"
+        },
+        "checksum": "0xDBDD"
+      },
+      "boundaries": [0, 2, 3, 4, 8, 10, 12],
+      "packet_length": 14,
+      "description": "Sensor ID 0x1001  humidity read request"
+    },
+    {
+      "case_id": "humid_response",
+      "packet_hex": "cafe01210000000300031001459e46",
+      "parsed_values": {
+        "magic": "0xCAFE",
+        "version": 1,
+        "msg_type": "0x21",
+        "sequence": 3,
+        "length": 3,
+        "payload": {
+          "sensor_id": "0x1001",
+          "humidity": 69
+        },
+        "checksum": "0x9E46"
+      },
+      "boundaries": [0, 2, 3, 4, 8, 10, 13],
+      "packet_length": 15,
+      "description": "Sensor ID 0x1001  humidity response（69%）"
+    },
+    {
+      "case_id": "status_request",
+      "packet_hex": "cafe01300000000400021005dbcf",
+      "parsed_values": {
+        "magic": "0xCAFE",
+        "version": 1,
+        "msg_type": "0x30",
+        "sequence": 4,
+        "length": 2,
+        "payload": {
+          "sensor_id": "0x1005"
+        },
+        "checksum": "0xDBCF"
+      },
+      "boundaries": [0, 2, 3, 4, 8, 10, 12],
+      "packet_length": 14,
+      "description": "Sensor ID 0x1005  status query request"
+    },
+    {
+      "case_id": "status_response",
+      "packet_hex": "cafe0131000000050004100501529c0d",
+      "parsed_values": {
+        "magic": "0xCAFE",
+        "version": 1,
+        "msg_type": "0x31",
+        "sequence": 5,
+        "length": 4,
+        "payload": {
+          "sensor_id": "0x1005",
+          "status": 1,
+          "battery": 82
+        },
+        "checksum": "0x9C0D"
+      },
+      "boundaries": [0, 2, 3, 4, 8, 10, 14],
+      "packet_length": 16,
+      "description": "Sensor ID 0x1005  status response（status=1 active，battery=82%）"
+    }
+  ],
+  "notes": [
+    "This is a completely virtual protocol that does not exist in any public standard",
+    "Design purpose: testing LLM protocol reverse engineering capability without prior knowledge",
+    "Protocol features: fixed header + dynamic length field + structured payload + checksum",
+    "All numeric values use big-endian byte order",
+    "Checksum algorithm: XOR all bytes except checksum as 16-bit words",
+    "Payload structure: depending on msg_type, payload has different internal structures"
+  ]
+}

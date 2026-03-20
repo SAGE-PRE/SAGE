@@ -1,0 +1,144 @@
+{
+  "protocol": "SMB",
+  "description": "Server Message Block v1 - Server Message Block protocol",
+  "boundary_type": "dynamic",
+  "fields": [
+    {
+      "name": "protocol_id",
+      "type": "bytes",
+      "offset": 0,
+      "size": 4,
+      "description": "Protocol identifier, fixed as 0xFF534D42 ('\\xFFSMB')"
+    },
+    {
+      "name": "command",
+      "type": "uint8",
+      "offset": 4,
+      "size": 1,
+      "description": "Command code: 0x72=Negotiate, 0x73=Session Setup, 0x75=Tree Connect"
+    },
+    {
+      "name": "status",
+      "type": "uint32_le",
+      "offset": 5,
+      "size": 4,
+      "description": "NTStatus code (little-endian)"
+    },
+    {
+      "name": "flags",
+      "type": "uint8",
+      "offset": 9,
+      "size": 1,
+      "description": "Flags1"
+    },
+    {
+      "name": "flags2",
+      "type": "uint16_le",
+      "offset": 10,
+      "size": 2,
+      "description": "Flags2 (little-endian)"
+    },
+    {
+      "name": "process_id_high",
+      "type": "uint16_le",
+      "offset": 12,
+      "size": 2,
+      "description": "Process ID high 16 bits"
+    },
+    {
+      "name": "signature",
+      "type": "bytes",
+      "offset": 14,
+      "size": 8,
+      "description": "Security signature"
+    },
+    {
+      "name": "reserved",
+      "type": "uint16_le",
+      "offset": 22,
+      "size": 2,
+      "description": "Reserved field"
+    },
+    {
+      "name": "tree_id",
+      "type": "uint16_le",
+      "offset": 24,
+      "size": 2,
+      "description": "Tree connection ID"
+    },
+    {
+      "name": "process_id",
+      "type": "uint16_le",
+      "offset": 26,
+      "size": 2,
+      "description": "Process ID low 16 bits"
+    },
+    {
+      "name": "user_id",
+      "type": "uint16_le",
+      "offset": 28,
+      "size": 2,
+      "description": "User ID"
+    },
+    {
+      "name": "multiplex_id",
+      "type": "uint16_le",
+      "offset": 30,
+      "size": 2,
+      "description": "Multiplex ID"
+    },
+    {
+      "name": "word_count",
+      "type": "uint8",
+      "offset": 32,
+      "size": 1,
+      "description": "Number of parameter words (16-bit)"
+    },
+    {
+      "name": "parameter_words",
+      "type": "bytes",
+      "offset": 33,
+      "size": "@word_count * 2",
+      "description": "Parameter word area"
+    },
+    {
+      "name": "byte_count",
+      "type": "uint16_le",
+      "offset": "$parameter_words#",
+      "size": 2,
+      "description": "Data byte count"
+    },
+    {
+      "name": "data",
+      "type": "bytes",
+      "offset": "$byte_count#",
+      "size": "@byte_count",
+      "description": "Data area field"
+    }
+  ],
+  "test_cases": [
+    {
+      "case_id": "smb_negotiate_request",
+      "packet_hex": "FF534D4272000000001843C80000000000000000000000000000FFFF00000000000031000002024C414E4D414E312E3000024C4D312E325830303200024E54204C4D20302E313200",
+      "parsed_values": {
+        "protocol_id": "0xFF534D42",
+        "command": 114,
+        "status": 0,
+        "flags": 24,
+        "flags2": 51267,
+        "word_count": 0,
+        "byte_count": 49
+      },
+      "boundaries": [0, 4, 5, 9, 10, 12, 14, 22, 24, 26, 28, 30, 32, 33, 35],
+      "packet_length": 84,
+      "description": "SMB Negotiate request"
+    }
+  ],
+  "notes": [
+    "SMB v1 is the traditional Windows file sharing protocol",
+    "32-byte fixed header + word_count(1) + parameter_words + byte_count(2) + data",
+    "Uses little-endian byte order",
+    "Gradually being replaced by SMB2/SMB3",
+    "Common commands: 0x72=Negotiate, 0x73=Session Setup, 0x75=Tree Connect"
+  ]
+}

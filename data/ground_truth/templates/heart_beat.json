@@ -1,0 +1,217 @@
+{
+  "protocol": "HeartBeat (HBEAT)",
+  "description": "Virtual heartbeat monitoring protocol - fixed 24 bytes, little-endian, for node health status monitoring",
+  "boundary_type": "static",
+  "total_length": 24,
+  "fields": [
+    {
+      "name": "sync_word",
+      "type": "uint16_le",
+      "offset": 0,
+      "size": 2,
+      "description": "Sync word, fixed value 0xFACE (stored as CE FA in little-endian)"
+    },
+    {
+      "name": "version",
+      "type": "uint8",
+      "offset": 2,
+      "size": 1,
+      "description": "Protocol version, currently 0x02"
+    },
+    {
+      "name": "node_type",
+      "type": "uint8",
+      "offset": 3,
+      "size": 1,
+      "description": "Node type: 0x01=Master, 0x02=Slave, 0x03=Monitor, 0x04=Gateway"
+    },
+    {
+      "name": "node_id",
+      "type": "uint32_le",
+      "offset": 4,
+      "size": 4,
+      "description": "Node ID (little-endian)"
+    },
+    {
+      "name": "sequence",
+      "type": "uint32_le",
+      "offset": 8,
+      "size": 4,
+      "description": "Message sequence number (little-endian), increments with each send"
+    },
+    {
+      "name": "uptime",
+      "type": "uint32_le",
+      "offset": 12,
+      "size": 4,
+      "description": "Node uptime (little-endian, in seconds)"
+    },
+    {
+      "name": "cpu_load",
+      "type": "uint8",
+      "offset": 16,
+      "size": 1,
+      "description": "CPU load percentage (0-100)"
+    },
+    {
+      "name": "mem_load",
+      "type": "uint8",
+      "offset": 17,
+      "size": 1,
+      "description": "Memory load percentage (0-100)"
+    },
+    {
+      "name": "status",
+      "type": "uint8",
+      "offset": 18,
+      "size": 1,
+      "description": "Status code: 0x00=OK, 0x01=WARN, 0x02=ERROR, 0x03=CRITICAL"
+    },
+    {
+      "name": "flags",
+      "type": "uint8",
+      "offset": 19,
+      "size": 1,
+      "description": "Flags: bit0=attention required"
+    },
+    {
+      "name": "crc32",
+      "type": "uint32_le",
+      "offset": 20,
+      "size": 4,
+      "description": "CRC32 checksum (little-endian), calculated for the first 20 bytes"
+    }
+  ],
+  "static_boundaries": [0, 2, 3, 4, 8, 12, 16, 17, 18, 19, 20, 24],
+  "node_types": {
+    "0x01": {
+      "name": "NODE_MASTER",
+      "description": "Master node, responsible for coordination and management"
+    },
+    "0x02": {
+      "name": "NODE_SLAVE",
+      "description": "Slave node, executes work tasks"
+    },
+    "0x03": {
+      "name": "NODE_MONITOR",
+      "description": "Monitor node, collects status information"
+    },
+    "0x04": {
+      "name": "NODE_GATEWAY",
+      "description": "Gateway node, responsible for network boundary communication"
+    }
+  },
+  "status_codes": {
+    "0x00": {
+      "name": "STATUS_OK",
+      "description": "Normal operation",
+      "condition": "CPU and memory load both below 70%"
+    },
+    "0x01": {
+      "name": "STATUS_WARN",
+      "description": "Warning status",
+      "condition": "CPU or memory load between 70%-80%"
+    },
+    "0x02": {
+      "name": "STATUS_ERROR",
+      "description": "Error status",
+      "condition": "CPU or memory load between 80%-90%"
+    },
+    "0x03": {
+      "name": "STATUS_CRITICAL",
+      "description": "Critical status",
+      "condition": "CPU or memory load exceeds 90%"
+    }
+  },
+  "test_cases": [
+    {
+      "case_id": "master_heartbeat",
+      "packet_hex": "cefa0201010001000000000000000000254600001234abcd",
+      "parsed_values": {
+        "sync_word": "0xFACE",
+        "version": 2,
+        "node_type": "0x01",
+        "node_id": "0x00010001",
+        "sequence": 0,
+        "uptime": 0,
+        "cpu_load": 37,
+        "mem_load": 70,
+        "status": "0x00",
+        "flags": "0x00",
+        "crc32": "0xCDAB3412"
+      },
+      "boundaries": [0, 2, 3, 4, 8, 12, 16, 17, 18, 19, 20, 24],
+      "packet_length": 24,
+      "description": "Master node heartbeat, CPU 37%, memory 70%, status OK"
+    },
+    {
+      "case_id": "slave_heartbeat_warn",
+      "packet_hex": "cefa02020100020001000000e80300004d5001005678efgh",
+      "parsed_values": {
+        "sync_word": "0xFACE",
+        "version": 2,
+        "node_type": "0x02",
+        "node_id": "0x00020001",
+        "sequence": 1,
+        "uptime": 1000,
+        "cpu_load": 77,
+        "mem_load": 80,
+        "status": "0x01",
+        "flags": "0x00",
+        "crc32": "0x..."
+      },
+      "boundaries": [0, 2, 3, 4, 8, 12, 16, 17, 18, 19, 20, 24],
+      "packet_length": 24,
+      "description": "Slave node heartbeat, CPU 77%, memory 80%, warning status"
+    },
+    {
+      "case_id": "monitor_heartbeat_critical",
+      "packet_hex": "cefa02030100030002000000102700005f5b0301abcd1234",
+      "parsed_values": {
+        "sync_word": "0xFACE",
+        "version": 2,
+        "node_type": "0x03",
+        "node_id": "0x00030001",
+        "sequence": 2,
+        "uptime": 10000,
+        "cpu_load": 95,
+        "mem_load": 91,
+        "status": "0x03",
+        "flags": "0x01",
+        "crc32": "0x..."
+      },
+      "boundaries": [0, 2, 3, 4, 8, 12, 16, 17, 18, 19, 20, 24],
+      "packet_length": 24,
+      "description": "Monitor node heartbeat, CPU 95%, memory 91%, critical status, attention required"
+    },
+    {
+      "case_id": "gateway_heartbeat",
+      "packet_hex": "cefa020401000400030000008813000028320000deadbeef",
+      "parsed_values": {
+        "sync_word": "0xFACE",
+        "version": 2,
+        "node_type": "0x04",
+        "node_id": "0x00040001",
+        "sequence": 3,
+        "uptime": 5000,
+        "cpu_load": 40,
+        "mem_load": 50,
+        "status": "0x00",
+        "flags": "0x00",
+        "crc32": "0x..."
+      },
+      "boundaries": [0, 2, 3, 4, 8, 12, 16, 17, 18, 19, 20, 24],
+      "packet_length": 24,
+      "description": "Gateway node heartbeat, CPU 40%, memory 50%, status OK"
+    }
+  ],
+  "notes": [
+    "This is a virtual heartbeat monitoring protocol for testing LLM protocol reverse engineering capability",
+    "Fixed length 24 bytes, all messages have the same boundary structure",
+    "Uses little-endian byte order",
+    "Contains node type, node ID, sequence number, uptime, load information and other fields",
+    "Uses CRC32 checksum, calculated for all fields except CRC32 (first 20 bytes)",
+    "Status code is automatically calculated based on CPU and memory load",
+    "Suitable for distributed system health monitoring scenarios"
+  ]
+}

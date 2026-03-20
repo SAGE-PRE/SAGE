@@ -1,0 +1,122 @@
+{
+  "protocol": "DNS",
+  "description": "Domain Name System protocol (RFC 1035)",
+  "boundary_type": "dynamic",
+  "fields": [
+    {
+      "name": "transaction_id",
+      "type": "uint16_be",
+      "offset": 0,
+      "size": 2,
+      "description": "Transaction ID, used to match request and response"
+    },
+    {
+      "name": "flags",
+      "type": "uint16_be",
+      "offset": 2,
+      "size": 2,
+      "description": "Flags：QR(1) OPCODE(4) AA(1) TC(1) RD(1) RA(1) Z(3) RCODE(4)"
+    },
+    {
+      "name": "questions",
+      "type": "uint16_be",
+      "offset": 4,
+      "size": 2,
+      "description": "Question count"
+    },
+    {
+      "name": "answer_rrs",
+      "type": "uint16_be",
+      "offset": 6,
+      "size": 2,
+      "description": "Answer resource record count"
+    },
+    {
+      "name": "authority_rrs",
+      "type": "uint16_be",
+      "offset": 8,
+      "size": 2,
+      "description": "Authority resource record count"
+    },
+    {
+      "name": "additional_rrs",
+      "type": "uint16_be",
+      "offset": 10,
+      "size": 2,
+      "description": "Additional resource record count"
+    },
+    {
+      "name": "query_name",
+      "type": "dns_name",
+      "offset": 12,
+      "size": "variable",
+      "description": "Query domain name (label format: length + string, ending with 0x00)"
+    },
+    {
+      "name": "query_type",
+      "type": "uint16_be",
+      "offset": "$query_name#",
+      "size": 2,
+      "description": "Query type: 1=A, 2=NS, 5=CNAME, 6=SOA, 12=PTR, 15=MX, 16=TXT, 28=AAAA"
+    },
+    {
+      "name": "query_class",
+      "type": "uint16_be",
+      "offset": "$query_type#",
+      "size": 2,
+      "description": "Query class: 1=IN (Internet)"
+    },
+    {
+      "name": "answers",
+      "type": "bytes",
+      "offset": "$query_class#",
+      "size": "@total_length - $query_class#",
+      "description": "Answer/authority/additional resource records (if any)"
+    }
+  ],
+  "test_cases": [
+    {
+      "case_id": "dns_query_a0_twimg",
+      "packet_hex": "f67501000001000000000000026130057477696d6703636f6d0000010001",
+      "parsed_values": {
+        "transaction_id": "0xF675",
+        "flags": "0x0100",
+        "questions": 1,
+        "answer_rrs": 0,
+        "authority_rrs": 0,
+        "additional_rrs": 0,
+        "query_name": "a0.twimg.com",
+        "query_type": 1,
+        "query_class": 1
+      },
+      "boundaries": [0, 2, 4, 6, 8, 10, 12, 26, 28, 30],
+      "packet_length": 30,
+      "description": "DNS A record query: a0.twimg.com"
+    },
+    {
+      "case_id": "dns_response_servfail",
+      "packet_hex": "f67581820001000000000000026130057477696d6703636f6d0000010001",
+      "parsed_values": {
+        "transaction_id": "0xF675",
+        "flags": "0x8182",
+        "questions": 1,
+        "answer_rrs": 0,
+        "authority_rrs": 0,
+        "additional_rrs": 0,
+        "query_name": "a0.twimg.com",
+        "query_type": 1,
+        "query_class": 1
+      },
+      "boundaries": [0, 2, 4, 6, 8, 10, 12, 26, 28, 30],
+      "packet_length": 30,
+      "description": "DNS response (SERVFAIL)"
+    }
+  ],
+  "notes": [
+    "DNS is the standard domain name resolution protocol, defined in RFC 1035",
+    "Fixed 12-byte header + variable-length query/answer sections",
+    "Domain names use label format encoding: each segment is length(1 byte) + string, ending with 0x00",
+    "This dataset is from iCTF 2010 competition traffic",
+    "Uses big-endian byte order"
+  ]
+}

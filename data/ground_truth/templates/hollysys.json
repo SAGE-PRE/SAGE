@@ -1,0 +1,114 @@
+{
+  "protocol": "Hollysys",
+  "description": "Hollysys industrial control protocol - for DCS/PLC communication",
+  "boundary_type": "dynamic",
+  "fields": [
+    {
+      "name": "start_marker",
+      "type": "uint16_be",
+      "offset": 0,
+      "size": 2,
+      "description": "Start marker: 0xAAAA=request, 0xBBBB=response"
+    },
+    {
+      "name": "length",
+      "type": "uint16_le",
+      "offset": 2,
+      "size": 2,
+      "description": "Data length (little-endian), calculated from dest_station"
+    },
+    {
+      "name": "dest_station",
+      "type": "uint8",
+      "offset": 4,
+      "size": 1,
+      "description": "Destination station number"
+    },
+    {
+      "name": "src_station",
+      "type": "uint8",
+      "offset": 5,
+      "size": 1,
+      "description": "Source station number"
+    },
+    {
+      "name": "dest_unit",
+      "type": "uint8",
+      "offset": 6,
+      "size": 1,
+      "description": "Destination unit number"
+    },
+    {
+      "name": "src_unit",
+      "type": "uint8",
+      "offset": 7,
+      "size": 1,
+      "description": "Source unit number"
+    },
+    {
+      "name": "command",
+      "type": "uint8",
+      "offset": 8,
+      "size": 1,
+      "description": "Command code: 0x01=read, 0x02=write, 0x81/0xC1=response"
+    },
+    {
+      "name": "sub_command",
+      "type": "uint8",
+      "offset": 9,
+      "size": 1,
+      "description": "Sub-command code / status code"
+    },
+    {
+      "name": "data",
+      "type": "bytes",
+      "offset": 10,
+      "size": "@length - 6",
+      "description": "Data area (address/length in request, read values in response)"
+    }
+  ],
+  "test_cases": [
+    {
+      "case_id": "hollysys_read_request",
+      "packet_hex": "aaaa0800010002010100001400",
+      "parsed_values": {
+        "start_marker": "0xAAAA",
+        "length": 8,
+        "dest_station": 1,
+        "src_station": 0,
+        "dest_unit": 2,
+        "src_unit": 1,
+        "command": 1,
+        "sub_command": 0
+      },
+      "boundaries": [0, 2, 4, 5, 6, 7, 8, 9, 10],
+      "packet_length": 13,
+      "description": "Hollysys read request"
+    },
+    {
+      "case_id": "hollysys_read_response",
+      "packet_hex": "bbbb0A00010002018100001122334455",
+      "parsed_values": {
+        "start_marker": "0xBBBB",
+        "length": 10,
+        "dest_station": 1,
+        "src_station": 0,
+        "dest_unit": 2,
+        "src_unit": 1,
+        "command": 129,
+        "sub_command": 0
+      },
+      "boundaries": [0, 2, 4, 5, 6, 7, 8, 9, 10],
+      "packet_length": 16,
+      "description": "Hollysys read response"
+    }
+  ],
+  "notes": [
+    "Hollysys is a major industrial automation vendor",
+    "Protocol used for DCS (Distributed Control System) and PLC communication",
+    "Requests start with 0xAAAA, responses start with 0xBBBB",
+    "Length field uses little-endian byte order",
+    "Command 0x01=read, 0x02=write, 0x81/0xC1=response",
+    "Contains station number and unit number for addressing"
+  ]
+}

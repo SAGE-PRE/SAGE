@@ -1,0 +1,243 @@
+{
+  "protocol": "SecureChat (SCHAT)",
+  "description": "Virtual encrypted chat protocol - multiple TLV blocks, timestamp, session management",
+  "boundary_type": "dynamic",
+  "fields": [
+    {
+      "name": "magic",
+      "type": "uint16_be",
+      "offset": 0,
+      "size": 2,
+      "description": "Protocol magic number, fixed value 0xBEEF"
+    },
+    {
+      "name": "version",
+      "type": "uint8",
+      "offset": 2,
+      "size": 1,
+      "description": "Protocol version, currently 0x03"
+    },
+    {
+      "name": "msg_type",
+      "type": "uint8",
+      "offset": 3,
+      "size": 1,
+      "description": "Message type: 0x01=text, 0x02=file, 0x03=image, 0x04=status"
+    },
+    {
+      "name": "sequence",
+      "type": "uint32_be",
+      "offset": 4,
+      "size": 4,
+      "description": "Message sequence number (big-endian)"
+    },
+    {
+      "name": "tlv_count",
+      "type": "uint8",
+      "offset": 8,
+      "size": 1,
+      "description": "Number of TLV blocks"
+    },
+    {
+      "name": "tlv_blocks",
+      "type": "tlv_array",
+      "offset": 9,
+      "size": "remaining - 1",
+      "description": "Multiple TLV blocks, each block format: Type(1B) | Length(1B) | Value(NB)",
+      "tlv_format": {
+        "type_size": 1,
+        "length_size": 1,
+        "length_endian": "N/A"
+      },
+      "tlv_types": {
+        "0x10": {
+          "name": "TLV_SESSION_ID",
+          "description": "Session ID",
+          "value_structure": [
+            {"name": "session_id", "type": "uint32_be", "offset": 0, "size": 4, "description": "Session identifier"}
+          ]
+        },
+        "0x11": {
+          "name": "TLV_SENDER_ID",
+          "description": "Sender ID",
+          "value_structure": [
+            {"name": "sender_id", "type": "uint16_be", "offset": 0, "size": 2, "description": "Sender user ID"}
+          ]
+        },
+        "0x12": {
+          "name": "TLV_RECEIVER_ID",
+          "description": "Receiver ID",
+          "value_structure": [
+            {"name": "receiver_id", "type": "uint16_be", "offset": 0, "size": 2, "description": "Receiver user ID"}
+          ]
+        },
+        "0x13": {
+          "name": "TLV_TIMESTAMP",
+          "description": "Timestamp",
+          "value_structure": [
+            {"name": "timestamp_ms", "type": "uint64_be", "offset": 0, "size": 8, "description": "Millisecond-level Unix timestamp"}
+          ]
+        },
+        "0x14": {
+          "name": "TLV_CONTENT",
+          "description": "Message content",
+          "value_structure": [
+            {"name": "content", "type": "bytes", "offset": 0, "size": "@length", "description": "Message content (UTF-8 encoded text or binary data)"}
+          ]
+        },
+        "0x15": {
+          "name": "TLV_METADATA",
+          "description": "Metadata",
+          "value_structure": [
+            {"name": "metadata", "type": "bytes", "offset": 0, "size": "@length", "description": "Additional metadata"}
+          ]
+        }
+      }
+    },
+    {
+      "name": "checksum",
+      "type": "uint8",
+      "offset": "$tlv_blocks#",
+      "size": 1,
+      "description": "Simple accumulation checksum (sum of all bytes modulo 256)"
+    }
+  ],
+  "test_cases": [
+    {
+      "case_id": "text_message",
+      "description": "Text message: user 1001 sends to 1002",
+      "parsed_values": {
+        "magic": "0xBEEF",
+        "version": 3,
+        "msg_type": "0x01",
+        "sequence": 0,
+        "tlv_count": 5,
+        "tlvs": [
+          {
+            "type": "0x10",
+            "length": 4,
+            "value": {
+              "session_id": 10001
+            }
+          },
+          {
+            "type": "0x11",
+            "length": 2,
+            "value": {
+              "sender_id": 1001
+            }
+          },
+          {
+            "type": "0x12",
+            "length": 2,
+            "value": {
+              "receiver_id": 1002
+            }
+          },
+          {
+            "type": "0x13",
+            "length": 8,
+            "value": {
+              "timestamp_ms": 1737331200000
+            }
+          },
+          {
+            "type": "0x14",
+            "length": 5,
+            "value": {
+              "content": "Hello"
+            }
+          }
+        ]
+      },
+      "boundaries": [0, 2, 3, 4, 8, 9, "TLV1_start", "TLV2_start", "TLV3_start", "TLV4_start", "TLV5_start", "checksum_offset"]
+    },
+    {
+      "case_id": "status_message",
+      "description": "Status message: user 1003 online notification",
+      "parsed_values": {
+        "magic": "0xBEEF",
+        "version": 3,
+        "msg_type": "0x04",
+        "sequence": 5,
+        "tlv_count": 6,
+        "tlvs": [
+          {
+            "type": "0x10",
+            "length": 4,
+            "value": {
+              "session_id": 10002
+            }
+          },
+          {
+            "type": "0x11",
+            "length": 2,
+            "value": {
+              "sender_id": 1003
+            }
+          },
+          {
+            "type": "0x12",
+            "length": 2,
+            "value": {
+              "receiver_id": 1004
+            }
+          },
+          {
+            "type": "0x13",
+            "length": 8,
+            "value": {
+              "timestamp_ms": 1737331205000
+            }
+          },
+          {
+            "type": "0x14",
+            "length": 1,
+            "value": {
+              "content": 1
+            }
+          },
+          {
+            "type": "0x15",
+            "length": 2,
+            "value": {
+              "metadata": "0x01F4"
+            }
+          }
+        ]
+      },
+      "boundaries": [0, 2, 3, 4, 8, 9, "TLV1_start", "TLV2_start", "TLV3_start", "TLV4_start", "TLV5_start", "TLV6_start", "checksum_offset"]
+    }
+  ],
+  "msg_types": {
+    "0x01": {
+      "name": "MSG_TEXT",
+      "description": "Text message",
+      "content_type": "UTF-8 string"
+    },
+    "0x02": {
+      "name": "MSG_FILE",
+      "description": "File message",
+      "content_type": "File data"
+    },
+    "0x03": {
+      "name": "MSG_IMAGE",
+      "description": "Image message",
+      "content_type": "Image data"
+    },
+    "0x04": {
+      "name": "MSG_STATUS",
+      "description": "Status message",
+      "content_type": "Status code: 0=offline, 1=online, 2=away"
+    }
+  },
+  "notes": [
+    "Completely virtual chat protocol for testing LLM's ability to recognize complex TLV structures",
+    "Uses big-endian byte order, in contrast to GameSync",
+    "TLV encoding: Type(1B) + Length(1B) + Value(variable), different from GameSync's TLV format (GameSync uses 2-byte length)",
+    "Contains session management, timestamp (millisecond-level), optional metadata and other elements",
+    "Protocol feature: fixed header + variable quantity TLV blocks + simple checksum",
+    "Difference from CustomIoT: more complex TLV structure, more field types",
+    "Each TLV's Value has a clear internal structure"
+  ]
+}

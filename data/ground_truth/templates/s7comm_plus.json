@@ -1,0 +1,153 @@
+{
+  "protocol": "S7Comm Plus",
+  "description": "Siemens S7 Communication Plus - Siemens S7-1200/1500 series PLC communication protocol",
+  "boundary_type": "dynamic",
+  "fields": [
+    {
+      "name": "protocol_id",
+      "type": "uint8",
+      "offset": 0,
+      "size": 1,
+      "description": "Protocol identifier, fixed as 0x72"
+    },
+    {
+      "name": "pdu_type",
+      "type": "uint8",
+      "offset": 1,
+      "size": 1,
+      "description": "PDU type: 0x01=request(V1), 0x02=response(V1), 0x03=request(V2+), 0x31/0x32=encrypted version"
+    },
+    {
+      "name": "data_length",
+      "type": "uint16_be",
+      "offset": 2,
+      "size": 2,
+      "description": "Data length (big-endian), value = total message length - 4 (excluding optional trailer)"
+    },
+    {
+      "name": "version",
+      "type": "uint8",
+      "offset": 4,
+      "size": 1,
+      "description": "Protocol version: 0x01, 0x02, 0x03, 0x31, 0x32"
+    },
+    {
+      "name": "opcode",
+      "type": "uint16_be",
+      "offset": 5,
+      "size": 2,
+      "description": "Opcode: high byte=main category, low byte=sub category"
+    },
+    {
+      "name": "reserved",
+      "type": "uint8",
+      "offset": 7,
+      "size": 1,
+      "description": "Reserved field"
+    },
+    {
+      "name": "session_id",
+      "type": "uint32_be",
+      "offset": 8,
+      "size": 4,
+      "description": "Session ID (for V2+)"
+    },
+    {
+      "name": "sequence",
+      "type": "uint32_be",
+      "offset": 12,
+      "size": 4,
+      "description": "Sequence number (for V2+, may be missing)"
+    },
+    {
+      "name": "payload",
+      "type": "bytes",
+      "offset": 16,
+      "size": "@data_length - 12",
+      "description": "Data payload (contains TLV-encoded request/response data)"
+    },
+    {
+      "name": "trailer_protocol_id",
+      "type": "uint8",
+      "offset": "@data_length + 4",
+      "size": 1,
+      "optional": true,
+      "description": "Trailer protocol identifier, fixed as 0x72"
+    },
+    {
+      "name": "trailer_pdu_type",
+      "type": "uint8",
+      "offset": "@data_length + 5",
+      "size": 1,
+      "optional": true,
+      "description": "Trailer PDU type, same as header's pdu_type"
+    },
+    {
+      "name": "trailer_length",
+      "type": "uint16_be",
+      "offset": "@data_length + 6",
+      "size": 2,
+      "optional": true,
+      "description": "Trailer length, fixed as 0x0000"
+    }
+  ],
+  "test_cases": [
+    {
+      "case_id": "s7comm_plus_connect",
+      "packet_hex": "72010015010000010000000000000400000004000000720100000000",
+      "parsed_values": {
+        "protocol_id": "0x72",
+        "pdu_type": 1,
+        "data_length": 21,
+        "version": 1,
+        "opcode": "0x0000",
+        "trailer_protocol_id": "0x72",
+        "trailer_pdu_type": 1,
+        "trailer_length": 0
+      },
+      "boundaries": [0, 1, 2, 4, 5, 7, 8, 12, 16, 25, 26, 27],
+      "packet_length": 28,
+      "description": "S7Comm Plus connection request (with trailer)"
+    },
+    {
+      "case_id": "s7comm_plus_response",
+      "packet_hex": "72020011320000054200000002340000000000000072020000",
+      "parsed_values": {
+        "protocol_id": "0x72",
+        "pdu_type": 2,
+        "data_length": 17,
+        "version": 50,
+        "opcode": "0x0005",
+        "trailer_protocol_id": "0x72",
+        "trailer_pdu_type": 2,
+        "trailer_length": 0
+      },
+      "boundaries": [0, 1, 2, 4, 5, 7, 8, 12, 16, 21, 22, 23],
+      "packet_length": 25,
+      "description": "S7Comm Plus response (with trailer)"
+    },
+    {
+      "case_id": "s7comm_plus_read",
+      "packet_hex": "720100200300004B000000033400000003B00000000000000081000014A1FF1100040432B303",
+      "parsed_values": {
+        "protocol_id": "0x72",
+        "pdu_type": 1,
+        "data_length": 32,
+        "version": 3,
+        "opcode": "0x004B"
+      },
+      "boundaries": [0, 1, 2, 4, 5, 7, 8, 12, 16],
+      "packet_length": 38,
+      "description": "S7Comm Plus read variable request (without trailer)"
+    }
+  ],
+  "notes": [
+    "S7Comm Plus is the new protocol used by Siemens S7-1200/1500 series PLCs",
+    "Unlike traditional S7Comm(0x32), S7Comm Plus uses 0x72 as protocol identifier",
+    "Supports multiple protocol versions: V1, V2, V3, with slightly different structures",
+    "V2/V3 versions added Session ID and sequence number fields",
+    "Payload uses complex TLV nested structure",
+    "Message end may have optional trailer, with same structure as header (protocol_id + pdu_type + 0x0000)",
+    "Trailer's length field is fixed to 0, used to identify message end"
+  ]
+}
